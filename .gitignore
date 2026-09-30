@@ -1,0 +1,15 @@
+## Ignore Visual Studio / C# build outputs and configuration files
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.suo
+*.cache
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log

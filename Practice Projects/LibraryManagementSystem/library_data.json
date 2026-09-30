@@ -1,0 +1,102 @@
+[
+  {
+    "$type": "book",
+    "Genre": "Software Development",
+    "ISBN": "978-0132350884",
+    "PageCount": 464,
+    "Id": "408BEB44",
+    "Title": "Clean Code",
+    "Author": "Robert C. Martin",
+    "PublicationYear": 2008,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "book",
+    "Genre": "Programming",
+    "ISBN": "978-0985580155",
+    "PageCount": 512,
+    "Id": "4758DE9A",
+    "Title": "The C# Player\u0027s Guide",
+    "Author": "RB Whitaker",
+    "PublicationYear": 2022,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "magazine",
+    "IssueNumber": 575,
+    "Publisher": "IEEE",
+    "Id": "28C77519",
+    "Title": "IEEE Computer",
+    "Author": "IEEE Society",
+    "PublicationYear": 2024,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "magazine",
+    "IssueNumber": 102,
+    "Publisher": "NatGeo",
+    "Id": "11490CD3",
+    "Title": "National Geographic",
+    "Author": "Editorial Team",
+    "PublicationYear": 2023,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "audiobook",
+    "DurationMinutes": 335,
+    "Narrator": "James Clear",
+    "Id": "EF1703DB",
+    "Title": "Atomic Habits",
+    "Author": "James Clear",
+    "PublicationYear": 2018,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "audiobook",
+    "DurationMinutes": 620,
+    "Narrator": "Gang of Four",
+    "Id": "EE2EA142",
+    "Title": "Design Patterns",
+    "Author": "Erich Gamma et al.",
+    "PublicationYear": 1994,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  },
+  {
+    "$type": "book",
+    "Genre": "Software Engineering",
+    "ISBN": "978-0134757599",
+    "PageCount": 448,
+    "Id": "19F2EEFE",
+    "Title": "Refactoring",
+    "Author": "Martin Fowler",
+    "PublicationYear": 2019,
+    "IsBorrowed": true,
+    "BorrowDate": "2026-09-22T06:45:41.3031165+05:30",
+    "DueDate": "2026-09-17T06:45:41.305906+05:30"
+  },
+  {
+    "$type": "book",
+    "Genre": "Test",
+    "ISBN": "978-0-00-000000-0",
+    "PageCount": 500,
+    "Id": "01F16468",
+    "Title": "Sample Book",
+    "Author": "Anubhaw Gupta",
+    "PublicationYear": 2026,
+    "IsBorrowed": false,
+    "BorrowDate": null,
+    "DueDate": null
+  }
+]
