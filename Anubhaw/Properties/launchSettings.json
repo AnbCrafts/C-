@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Anubhaw": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
