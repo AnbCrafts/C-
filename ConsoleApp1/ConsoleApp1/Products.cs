@@ -9,5 +9,6 @@ namespace ConsoleApp1
         public string Category { get; set; }
         public double Price { get; set; }
         public int StockQuantity { get; set; }
+        public int StoreId { get; set; }
     }
 }

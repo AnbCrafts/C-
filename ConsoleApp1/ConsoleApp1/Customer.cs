@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
@@ -9,5 +10,9 @@ namespace ConsoleApp1
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public int StoreId { get; set; }
+
+        // Navigation property for Customer's Orders
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

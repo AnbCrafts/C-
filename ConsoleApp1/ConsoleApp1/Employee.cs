@@ -9,5 +9,6 @@ namespace ConsoleApp1
         public string Designation { get; set; }
         public double Salary { get; set; }
         public string Department { get; set; }
+        public int StoreId { get; set; }
     }
 }
