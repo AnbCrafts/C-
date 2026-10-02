@@ -10,7 +10,7 @@ namespace ConsoleApp1
         public int StoreId { get; set; }
         public DateTime OrderDate { get; set; }
         public double TotalAmount { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = string.Empty;
 
         // Navigation property for Products included in the Order
         public List<Products> Products { get; set; } = new List<Products>();
