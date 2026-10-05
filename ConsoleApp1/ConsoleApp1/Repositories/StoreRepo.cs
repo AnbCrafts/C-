@@ -6,7 +6,7 @@ namespace ConsoleApp1.Repositories
 {
     internal class StoreRepo
     {
-        public static List<Store> storeList= new List<Store>();
+        public static List<Store> storeList = new List<Store>();
 
         public static void AddStore(Store store)
         {
@@ -17,60 +17,73 @@ namespace ConsoleApp1.Repositories
             }
 
             storeList.Add(store);
-            Console.WriteLine($"Store named {store.StoreName} Added in the store list\n");
+            Console.WriteLine($"Store named '{store.StoreName}' added to store list.\n");
         }
-        
+
         public static List<Employee> GetEmpWorkingInStore(int id)
         {
             var store = storeList.Find(c => c.StoreId == id);
             if (store == null)
             {
-                Console.WriteLine($"Store with ID - {id} not found\n");
+                Console.WriteLine($"Store with ID {id} not found\n");
                 return new List<Employee>();
             }
 
             if (store.Employees.Count == 0)
             {
-                Console.WriteLine($"Store with ID - {id} has no employees added\n");
+                Console.WriteLine($"Store with ID {id} has no employees assigned.\n");
             }
             return store.Employees;
         }
 
+        public static List<Products> GetStoreProducts(int id)
+        {
+            var store = storeList.Find(s => s.StoreId == id);
+            if (store == null)
+            {
+                Console.WriteLine($"Store with ID {id} not found\n");
+                return new List<Products>();
+            }
+
+            if (store.Products.Count == 0)
+            {
+                Console.WriteLine($"Store with ID {id} has no products in inventory.\n");
+            }
+            return store.Products;
+        }
 
         public static List<Order> GetStoreOrders(int id)
         {
             var store = storeList.Find(s => s.StoreId == id);
             if (store == null)
             {
-                Console.WriteLine($"Store with ID - {id} not found\n");
+                Console.WriteLine($"Store with ID {id} not found\n");
                 return new List<Order>();
             }
 
             if (store.Orders.Count == 0)
             {
-                Console.WriteLine($"Store with ID - {id} has no orders yet\n");
+                Console.WriteLine($"Store with ID {id} has no orders yet.\n");
             }
 
             return store.Orders;
         }
-
 
         public static List<Customer> GetStoreCustomers(int id)
         {
             var store = storeList.Find(s => s.StoreId == id);
             if (store == null)
             {
-                Console.WriteLine($"Store with ID - {id} not found\n");
+                Console.WriteLine($"Store with ID {id} not found\n");
                 return new List<Customer>();
             }
 
             if (store.Customers.Count == 0)
             {
-                Console.WriteLine($"Store with ID - {id} has no customers yet\n");
+                Console.WriteLine($"Store with ID {id} has no customers registered.\n");
             }
             return store.Customers;
         }
-
 
         public static void UpdateStoreDetails(int id, string name, string location, string contact)
         {
@@ -87,12 +100,38 @@ namespace ConsoleApp1.Repositories
                 if (!string.IsNullOrWhiteSpace(contact))
                     store.ContactNumber = contact;
 
-                Console.WriteLine("Store updated successfully.");
+                Console.WriteLine($"Store ID {id} updated successfully.\n");
             }
             else
             {
-                Console.WriteLine("Store not found.");
+                Console.WriteLine($"Store with ID {id} not found.\n");
             }
+        }
+
+        public static void DeleteStore(int id)
+        {
+            var store = storeList.Find(s => s.StoreId == id);
+            if (store != null)
+            {
+                storeList.Remove(store);
+                Console.WriteLine($"Store ID {id} removed successfully.\n");
+            }
+            else
+            {
+                Console.WriteLine($"Store with ID {id} not found.\n");
+            }
+        }
+
+        public static List<Store> SearchStoresByLocation(string location)
+        {
+            if (string.IsNullOrWhiteSpace(location)) return new List<Store>();
+
+            var list = storeList.FindAll(s => s.Location.Equals(location, StringComparison.OrdinalIgnoreCase));
+            if (list.Count == 0)
+            {
+                Console.WriteLine($"No stores found in location '{location}'.\n");
+            }
+            return list;
         }
 
         public static Store? GetStoreDetails(int id)
@@ -100,7 +139,7 @@ namespace ConsoleApp1.Repositories
             var store = storeList.Find(s => s.StoreId == id);
             if (store == null)
             {
-                Console.WriteLine($"Store with ID - {id} not found.\n");
+                Console.WriteLine($"Store with ID {id} not found.\n");
                 return null;
             }
 
@@ -111,7 +150,7 @@ namespace ConsoleApp1.Repositories
             Console.WriteLine($"Contact Number: {store.ContactNumber}");
             Console.WriteLine("--------------------------------------------------");
 
-            // Call employee details method with proper empty list check
+            // Employees
             var employees = GetEmpWorkingInStore(id);
             Console.WriteLine("--- Employees ---");
             if (employees == null || employees.Count == 0)
@@ -126,7 +165,22 @@ namespace ConsoleApp1.Repositories
                 }
             }
 
-            // Call customer details method with proper empty list check
+            // Products
+            var products = GetStoreProducts(id);
+            Console.WriteLine("--- Products Inventory ---");
+            if (products == null || products.Count == 0)
+            {
+                Console.WriteLine("No products found for this store.");
+            }
+            else
+            {
+                foreach (var prod in products)
+                {
+                    Console.WriteLine($"  - [ID: {prod.ProductId}] {prod.ProductName} | Category: {prod.Category} | Price: ${prod.Price} | Stock: {prod.StockQuantity}");
+                }
+            }
+
+            // Customers
             var customers = GetStoreCustomers(id);
             Console.WriteLine("--- Customers ---");
             if (customers == null || customers.Count == 0)
@@ -141,7 +195,7 @@ namespace ConsoleApp1.Repositories
                 }
             }
 
-            // Call order details method with proper empty list check
+            // Orders
             var orders = GetStoreOrders(id);
             Console.WriteLine("--- Orders ---");
             if (orders == null || orders.Count == 0)
@@ -160,7 +214,6 @@ namespace ConsoleApp1.Repositories
             return store;
         }
 
-
         public static List<Store> GetAllStoresDetails()
         {
             if (storeList == null || storeList.Count == 0)
@@ -177,6 +230,5 @@ namespace ConsoleApp1.Repositories
 
             return storeList;
         }
-
     }
 }
