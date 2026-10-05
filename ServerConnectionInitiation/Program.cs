@@ -77,78 +77,121 @@ namespace ServerConnectionInitiation
         //        //    Console.WriteLine("---------------");
 
         //        //}
-            
-                
-            
+
+
+
         //    }
 
 
 
         //}
-    
-       public static void Main(string[] args)
+
+        public static void Main(string[] args)
         {
             BikeshopRepo repo = new BikeshopRepo();
 
             while (true)
             {
-                Console.WriteLine("\n=== Add New Bike ===");
+                Console.Clear();
 
-                Console.Write("Enter Bike Name: ");
-                string name = Console.ReadLine();
+                Console.WriteLine("\n*************************** Operations ************************\n");
+                Console.WriteLine("1 - Add Bike");
+                Console.WriteLine("2 - Get All Bikes");
+                Console.WriteLine("3 - Get Bike By Id");
+                Console.WriteLine("4 - Update Bike");
+                Console.WriteLine("5 - Delete Bike");
+                Console.WriteLine("6 - Exit");
+                Console.Write("\nEnter your choice: ");
 
-                int price;
-                while (true)
+                int choice;
+                if (!int.TryParse(Console.ReadLine(), out choice))
                 {
-                    Console.Write("Enter Bike Price: ");
-                    if (int.TryParse(Console.ReadLine(), out price) && price >= 0)
-                    {
-                        break;
-                    }
-                    Console.WriteLine("Invalid price! Please enter a valid number.");
+                    Console.WriteLine("Invalid choice!");
+                    Console.ReadKey();
+                    continue;
                 }
 
-                Bikeshop bike = new Bikeshop
+                switch (choice)
                 {
-                    Name = name,
-                    Price = price
-                };
+                    case 1:
+                        Console.Write("Enter Bike Name: ");
+                        string name = Console.ReadLine();
 
-                try
-                {
-                    repo.AddBikeShop(bike);
-                    Console.WriteLine("Bike successfully saved to database!");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Database Error: {ex.Message}");
-                }
+                        Console.Write("Enter Bike Price: ");
+                        int price = Convert.ToInt32(Console.ReadLine());
 
-                Console.Write("\nDo you want to add another bike? (y/n): ");
-                string choice = Console.ReadLine()?.Trim().ToLower();
-                if (choice != "y" && choice != "yes")
-                {
-                    Console.WriteLine("\n=== All Bike Shops in Database ===");
-                    List<Bikeshop> allBikes = repo.GetAllBikeShop();
-                    if (allBikes.Count == 0)
-                    {
-                        Console.WriteLine("No records found.");
-                    }
-                    else
-                    {
-                        foreach (var b in allBikes)
+                        Bikeshop bike = new Bikeshop
                         {
-                            Console.WriteLine($"Name: {b.Name} | Price: {b.Price}");
-                        }
-                    }
-                    break;
-                }
-                
-            }
+                            Name = name,
+                            Price = price
+                        };
 
-            Console.WriteLine("\nPress any key to exit...");
-            Console.ReadKey();
-        } 
-    
+                        repo.AddBikeShop(bike);
+                        Console.WriteLine("Bike Added Successfully!");
+                        break;
+
+                    case 2:
+                        List<Bikeshop> bikes = repo.GetAllBikeShop();
+
+                        foreach (var b in bikes)
+                        {
+                            Console.WriteLine(
+                                $"Id: {b.Id}, Name: {b.Name}, Price: {b.Price}");
+                        }
+                        break;
+
+                    case 3:
+                        Console.Write("Enter Bike Id: ");
+                        int getId = Convert.ToInt32(Console.ReadLine());
+
+                        Bikeshop foundBike = repo.GetBikeById(getId);
+
+                        if (foundBike != null)
+                        {
+                            Console.WriteLine(
+                                $"Id: {foundBike.Id}, Name: {foundBike.Name}, Price: {foundBike.Price}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Bike not found.");
+                        }
+                        break;
+
+                    case 4:
+                        Console.Write("Enter Bike Id: ");
+                        int updateId = Convert.ToInt32(Console.ReadLine());
+
+                        Console.Write("Enter New Name: ");
+                        string newName = Console.ReadLine();
+
+                        Console.Write("Enter New Price: ");
+                        decimal newPrice = Convert.ToDecimal(Console.ReadLine());
+
+                        repo.UpdateBikeById(updateId, newName, newPrice);
+                        Console.WriteLine("Bike Updated Successfully!");
+                        break;
+
+                    case 5:
+                        Console.Write("Enter Bike Id: ");
+                        int deleteId = Convert.ToInt32(Console.ReadLine());
+
+                        repo.DeleteBikeById(deleteId);
+                        Console.WriteLine("Bike Deleted Successfully!");
+                        break;
+
+                    case 6:
+                        return;
+
+                    default:
+                        Console.WriteLine("Invalid Choice!");
+                        break;
+                }
+
+                Console.WriteLine("\nPress any key to continue...");
+                Console.ReadKey();
+            }
+        }
+
+
     }
 }
