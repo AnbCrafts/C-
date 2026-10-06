@@ -117,7 +117,7 @@ namespace ServerConnectionInitiation
         }
         public void UpdateBikeById(int id, string name = "", decimal price = 0)
         {
-            //Bikeshop bike = GetBikeById(id);
+            Bikeshop bike = GetBikeById(id);
 
             if (bike != null)
             {
@@ -151,6 +151,101 @@ namespace ServerConnectionInitiation
                 Console.WriteLine("Bike not found.");
             }
         }
+        
+        public void CreateDataTable(string selectQuery)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(selectQuery, connection);
+                    da.SelectCommand.CommandType = CommandType.Text;
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    Console.WriteLine("Returned by CreateDataTable Method\n\n");
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        Console.WriteLine(
+                            row["Name"] + ",  " +
+                            row["Id"] + ",  " +
+                            row["Price"]);
+                    }
+                }
+            }
+            catch (Exception e)
+
+            {
+                Console.WriteLine("Some error occured - \n"+ e.Message);
+            }
+
+            Console.ReadKey();
+        }
+
+        public void CreateDataSet(string selectQuery)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(selectQuery, connection);
+                    DataSet dataSet = new DataSet();
+                    da.Fill(dataSet);
+                    dataSet.Tables[0].TableName = "Bikes";
+                    Console.WriteLine("Returned by CreateDataSet Method\n\n");
+                    foreach (DataRow row in dataSet.Tables["Bikes"].Rows)
+                    {
+
+                        Console.WriteLine(row["Id"] + ",  " + row["Name"] + ",  " + row["Price"]);
+                    }
+                }
+            }
+            catch (Exception e)
+
+            {
+                Console.WriteLine("Some error occured - \n" + e.Message);
+            }
+
+            Console.ReadKey();
+        }
+        public void CreateDataSetByProcedure(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter();
+
+                    da.SelectCommand = new SqlCommand("usp_GetDataById", connection);
+                    da.SelectCommand.CommandType = CommandType.StoredProcedure;
+                    da.SelectCommand.Parameters.AddWithValue("@Id", id);
+                    
+
+
+                    DataSet dataSet = new DataSet();
+                    da.Fill(dataSet);
+
+                    dataSet.Tables[0].TableName = "Bikes";
+
+                    Console.WriteLine("Returned by CreateDataSetByProcedure Method\n");
+
+                    foreach (DataRow row in dataSet.Tables["Bikes"].Rows)
+                    {
+                        Console.WriteLine(
+                            row["Id"] + ", " +
+                            row["Name"] + ", " +
+                            row["Price"]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Some error occurred:\n" + e.Message);
+            }
+
+            Console.ReadKey();
+        }
+
     }
 
 }
