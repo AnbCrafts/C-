@@ -1,31 +1,26 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace ConsoleApp1.Repositories
 {
-    internal class ProductRepo
+    public class ProductRepo
     {
         public static List<Products> productList = new List<Products>();
 
-        public static List<Products> GetProducts(int count)
+        private static string GetConnectionString()
         {
-            var list = new List<Products>();
-            for (int i = 1; i <= count; i++)
+            var connSetting = ConfigurationManager.ConnectionStrings["StoreDB"];
+            if (connSetting != null && !string.IsNullOrWhiteSpace(connSetting.ConnectionString))
             {
-                list.Add(new Products
-                {
-                    ProductId = i,
-                    ProductName = $"Product{i}",
-                    Category = $"Category{(i % 3) + 1}",
-                    Price = i * 19.99,
-                    StockQuantity = i * 10
-                });
+                return connSetting.ConnectionString;
             }
-            return list;
+            return "Data Source=ANUBHAW;Initial Catalog=master;Integrated Security=True;TrustServerCertificate=True;";
         }
 
-        public static void AddProduct(Products product, Store? store)
+        // 1. ADD PRODUCT TO DB (ExecuteScalar to retrieve generated ProductId)
+        public static void AddProduct(Products product, Store? store = null)
         {
             if (product == null)
             {
@@ -36,59 +31,219 @@ namespace ConsoleApp1.Repositories
             if (store != null)
             {
                 product.StoreId = store.StoreId;
-                if (!store.Products.Contains(product))
+            }
+
+            string query = @"INSERT INTO practiceProjects.Products (ProductName, Category, Price, StockQuantity, StoreId)
+                             VALUES (@ProductName, @Category, @Price, @StockQuantity, @StoreId);
+                             SELECT SCOPE_IDENTITY();";
+
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    store.Products.Add(product);
+                    cmd.Parameters.AddWithValue("@ProductName", product.ProductName ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Category", product.Category ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Price", product.Price);
+                    cmd.Parameters.AddWithValue("@StockQuantity", product.StockQuantity);
+                    cmd.Parameters.AddWithValue("@StoreId", product.StoreId > 0 ? product.StoreId : (object)DBNull.Value);
+
+                    try
+                    {
+                        conn.Open();
+                        object newId = cmd.ExecuteScalar();
+                        if (newId != null && newId != DBNull.Value)
+                        {
+                            product.ProductId = Convert.ToInt32(newId);
+                        }
+                        Console.WriteLine($"Product '{product.ProductName}' added to DB with ProductId = {product.ProductId}.\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error adding product to DB: {ex.Message}\n");
+                    }
+                }
+            }
+        }
+
+        // 2. GET ALL PRODUCTS FROM DB (ExecuteReader)
+        public static List<Products> GetAllProducts()
+        {
+            var list = new List<Products>();
+            string query = "SELECT ProductId, ProductName, Category, Price, StockQuantity, StoreId FROM practiceProjects.Products";
+
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    try
+                    {
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                list.Add(new Products
+                                {
+                                    ProductId = Convert.ToInt32(reader["ProductId"]),
+                                    ProductName = reader["ProductName"].ToString() ?? string.Empty,
+                                    Category = reader["Category"].ToString() ?? string.Empty,
+                                    Price = Convert.ToDouble(reader["Price"]),
+                                    StockQuantity = Convert.ToInt32(reader["StockQuantity"]),
+                                    StoreId = reader["StoreId"] != DBNull.Value ? Convert.ToInt32(reader["StoreId"]) : 0
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error fetching products: {ex.Message}\n");
+                    }
+                }
+            }
+            return list;
+        }
+
+        // 3. GET PRODUCT BY ID (ExecuteReader)
+        public static Products? GetProductById(int productId)
+        {
+            string query = "SELECT ProductId, ProductName, Category, Price, StockQuantity, StoreId FROM practiceProjects.Products WHERE ProductId = @Id";
+
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", productId);
+                    try
+                    {
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new Products
+                                {
+                                    ProductId = Convert.ToInt32(reader["ProductId"]),
+                                    ProductName = reader["ProductName"].ToString() ?? string.Empty,
+                                    Category = reader["Category"].ToString() ?? string.Empty,
+                                    Price = Convert.ToDouble(reader["Price"]),
+                                    StockQuantity = Convert.ToInt32(reader["StockQuantity"]),
+                                    StoreId = reader["StoreId"] != DBNull.Value ? Convert.ToInt32(reader["StoreId"]) : 0
+                                };
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error fetching product by ID: {ex.Message}\n");
+                    }
                 }
             }
 
-            productList.Add(product);
-            Console.WriteLine($"Product '{product.ProductName}' added to catalog successfully.\n");
+            Console.WriteLine($"Product with ID {productId} not found in DB.\n");
+            return null;
         }
 
-        public static Products? GetProductById(int productId)
-        {
-            var prod = productList.Find(p => p.ProductId == productId);
-            if (prod == null)
-            {
-                Console.WriteLine($"Product with ID {productId} not found.\n");
-                return null;
-            }
-            return prod;
-        }
-
+        // 4. UPDATE PRODUCT IN DB (ExecuteNonQuery)
         public static void UpdateProduct(int productId, string productName, string category, double price, int stockQuantity)
         {
-            var prod = GetProductById(productId);
-            if (prod != null)
-            {
-                if (!string.IsNullOrWhiteSpace(productName)) prod.ProductName = productName;
-                if (!string.IsNullOrWhiteSpace(category)) prod.Category = category;
-                if (price > 0) prod.Price = price;
-                if (stockQuantity >= 0) prod.StockQuantity = stockQuantity;
+            string query = @"UPDATE practiceProjects.Products
+                             SET ProductName = ISNULL(NULLIF(@ProductName, ''), ProductName),
+                                 Category = ISNULL(NULLIF(@Category, ''), Category),
+                                 Price = CASE WHEN @Price > 0 THEN @Price ELSE Price END,
+                                 StockQuantity = CASE WHEN @StockQuantity >= 0 THEN @StockQuantity ELSE StockQuantity END
+                             WHERE ProductId = @Id";
 
-                Console.WriteLine($"Product ID {productId} updated successfully.\n");
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", productId);
+                    cmd.Parameters.AddWithValue("@ProductName", productName ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Category", category ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@Price", price);
+                    cmd.Parameters.AddWithValue("@StockQuantity", stockQuantity);
+
+                    try
+                    {
+                        conn.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        if (rows > 0)
+                            Console.WriteLine($"Product ID {productId} updated successfully in DB.\n");
+                        else
+                            Console.WriteLine($"Product ID {productId} not found in DB.\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error updating product: {ex.Message}\n");
+                    }
+                }
             }
         }
 
+        // 5. REMOVE PRODUCT FROM DB (ExecuteNonQuery)
         public static void RemoveProduct(int productId)
         {
-            var prod = GetProductById(productId);
-            if (prod != null)
-            {
-                productList.Remove(prod);
-                var store = StoreRepo.storeList.Find(s => s.StoreId == prod.StoreId);
-                store?.Products.Remove(prod);
+            string query = "DELETE FROM practiceProjects.Products WHERE ProductId = @Id";
 
-                Console.WriteLine($"Product ID {productId} removed from catalog.\n");
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Id", productId);
+                    try
+                    {
+                        conn.Open();
+                        int rows = cmd.ExecuteNonQuery();
+                        if (rows > 0)
+                            Console.WriteLine($"Product ID {productId} deleted from DB.\n");
+                        else
+                            Console.WriteLine($"Product ID {productId} not found in DB.\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error deleting product: {ex.Message}\n");
+                    }
+                }
             }
         }
 
+        // 6. GET PRODUCTS BY CATEGORY FROM DB (ExecuteReader)
         public static List<Products> GetProductsByCategory(string category)
         {
-            if (string.IsNullOrWhiteSpace(category)) return new List<Products>();
+            var list = new List<Products>();
+            string query = "SELECT ProductId, ProductName, Category, Price, StockQuantity, StoreId FROM practiceProjects.Products WHERE Category = @Category";
 
-            var list = productList.FindAll(p => p.Category.Equals(category, StringComparison.OrdinalIgnoreCase));
+            using (SqlConnection conn = new SqlConnection(GetConnectionString()))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Category", category ?? string.Empty);
+                    try
+                    {
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                list.Add(new Products
+                                {
+                                    ProductId = Convert.ToInt32(reader["ProductId"]),
+                                    ProductName = reader["ProductName"].ToString() ?? string.Empty,
+                                    Category = reader["Category"].ToString() ?? string.Empty,
+                                    Price = Convert.ToDouble(reader["Price"]),
+                                    StockQuantity = Convert.ToInt32(reader["StockQuantity"]),
+                                    StoreId = reader["StoreId"] != DBNull.Value ? Convert.ToInt32(reader["StoreId"]) : 0
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error searching products by category: {ex.Message}\n");
+                    }
+                }
+            }
+
             if (list.Count == 0)
             {
                 Console.WriteLine($"No products found in category '{category}'.\n");
