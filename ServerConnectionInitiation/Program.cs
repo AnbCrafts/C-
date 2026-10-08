@@ -208,7 +208,9 @@ namespace ServerConnectionInitiation
                 Console.WriteLine("3 - Get Bike By Id");
                 Console.WriteLine("4 - Update Bike");
                 Console.WriteLine("5 - Delete Bike");
-                Console.WriteLine("6 - Exit");
+                Console.WriteLine("6 - Get Procedure dataSet");
+                Console.WriteLine("7 - Exit");
+
                 Console.Write("\nEnter your choice: ");
 
                 int choice;
@@ -269,7 +271,11 @@ namespace ServerConnectionInitiation
                         break;
 
                     case 6:
+                        repo.GetDataByProcedureDataSet(2);
+                        break;
+                    case 7:
                         return;
+
 
                     default:
                         Console.WriteLine("Invalid Choice!");
