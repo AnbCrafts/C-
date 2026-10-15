@@ -1,29 +1,18 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CheckUserName.aspx.cs" Inherits="URLRouting.CheckUserName" %>
+<%@ Page Title="Check Username Availability" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CheckUserName.aspx.cs" Inherits="URLRouting.CheckUserName" %>
 
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Check Username Availability</title>
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
+        .check-container {
             width: 500px;
-            margin: 80px auto;
+            margin: 60px auto;
             background-color: white;
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 0 18px rgba(0,0,0,0.1);
         }
 
-        .title {
+        .check-title {
             text-align: center;
             color: #2c3e50;
             margin-bottom: 25px;
@@ -91,98 +80,60 @@
             margin-top: 15px;
         }
     </style>
-</head>
-<body>
 
-    <form id="form1" runat="server">
+    <div class="check-container">
 
-        <asp:ScriptManager ID="ScriptManager1"
-            runat="server">
-        </asp:ScriptManager>
+        <h2 class="check-title">Check Username Availability</h2>
 
-        <div class="container">
+        <asp:UpdatePanel ID="upUsernameCheck" runat="server">
+            <ContentTemplate>
 
-            <h2 class="title">Check Username Availability</h2>
-
-            <asp:UpdatePanel ID="upUsernameCheck"
-                runat="server">
-
-                <ContentTemplate>
-
-                    <div class="form-group">
-                        <label>Username</label>
-
-                        <asp:TextBox
-                            ID="txtUsername"
-                            runat="server"
-                            CssClass="textbox"
-                            placeholder="Enter username"
-                            AutoPostBack="true"
-                            OnTextChanged="btnCheckUsername_Click">
-                        </asp:TextBox>
-                    </div>
-
-                    <asp:Button
-                        ID="btnCheckUsername"
+                <div class="form-group">
+                    <label>Username</label>
+                    <asp:TextBox
+                        ID="txtUsername"
                         runat="server"
-                        Text="Check Availability"
-                        CssClass="btn-check"
-                        OnClick="btnCheckUsername_Click" />
+                        CssClass="textbox"
+                        placeholder="Enter username"
+                        AutoPostBack="true"
+                        OnTextChanged="btnCheckUsername_Click">
+                    </asp:TextBox>
+                </div>
 
-                    <div class="message-box">
+                <asp:Button
+                    ID="btnCheckUsername"
+                    runat="server"
+                    Text="Check Availability"
+                    CssClass="btn-check"
+                    OnClick="btnCheckUsername_Click" />
 
-                        <label>Status Message</label>
+                <div class="message-box">
+                    <label>Status Message</label>
+                    <asp:TextBox
+                        ID="txtMessage"
+                        runat="server"
+                        CssClass="message"
+                        TextMode="MultiLine"
+                        Rows="3"
+                        ReadOnly="true">
+                    </asp:TextBox>
+                </div>
 
-                        <asp:TextBox
-                            ID="txtMessage"
-                            runat="server"
-                            CssClass="message"
-                            TextMode="MultiLine"
-                            Rows="3"
-                            ReadOnly="true">
-                        </asp:TextBox>
+            </ContentTemplate>
 
-                    </div>
-                    
-                </ContentTemplate>
-
-               <Triggers>
-                <asp:AsyncPostBackTrigger
-                    ControlID="txtUsername"
-                    EventName="TextChanged" />
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="txtUsername" EventName="TextChanged" />
             </Triggers>
+        </asp:UpdatePanel>
 
+        <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upUsernameCheck">
+            <ProgressTemplate>
+                <div style="margin-top:20px; padding:15px; background-color:#fff3cd; border:1px solid #ffeeba; color:#856404; border-radius:6px; font-weight:bold;" class="loading">
+                    Checking Username...
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
 
-            </asp:UpdatePanel>
+    </div>
 
-            <asp:UpdateProgress
-                ID="UpdateProgress1"
-                runat="server"
-                AssociatedUpdatePanelID="upUsernameCheck">
-
-                <ProgressTemplate>
-
-                    <div style="
-
-                        margin-top:20px;
-
-                        padding:15px;
-                        background-color:#fff3cd;
-                        border:1px solid #ffeeba;
-                        color:#856404;
-                        border-radius:6px;
-                        font-weight:bold;"
-                        class="loading">
-                        Checking Username...
-                    </div>
-
-                </ProgressTemplate>
-
-            </asp:UpdateProgress>
-
-        </div>
-
-    </form>
-
-</body>
-</html>
+</asp:Content>
