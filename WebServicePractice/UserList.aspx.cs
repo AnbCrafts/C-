@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -14,13 +15,28 @@ namespace WebServicePractice
             LoadUsers();
         }
 
+        protected void gvUsers_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                bool isActive = Convert.ToBoolean(
+                    DataBinder.Eval(e.Row.DataItem, "IsActive"));
+
+                if (!isActive)
+                {
+                    e.Row.BackColor = System.Drawing.Color.Red;
+                    e.Row.ForeColor = System.Drawing.Color.White;
+                }
+            }
+        }
         private void LoadUsers()
         {
 
             PracticeWebServiceRef.WebService1SoapClient client =
-                new PracticeWebServiceRef.WebService1SoapClient();
+            new PracticeWebServiceRef.WebService1SoapClient();
 
             XElement xml = client.GetAllUserDetails();
+            //XElement xml = client.GetMillionUsertableData();
 
             DataSet ds = new DataSet();
 
@@ -32,5 +48,13 @@ namespace WebServicePractice
             gvUsers.DataSource = ds.Tables[0];
             gvUsers.DataBind();
         }
+
+        protected void gvUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvUsers.PageIndex = e.NewPageIndex;
+            LoadUsers();
+        }
+
+
     }
 }

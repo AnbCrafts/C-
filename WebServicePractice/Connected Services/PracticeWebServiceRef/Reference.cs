@@ -35,6 +35,27 @@ namespace WebServicePractice.PracticeWebServiceRef {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetAllUserDetails", ReplyAction="*")]
         System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.GetAllUserDetailsResponse> GetAllUserDetailsAsync(WebServicePractice.PracticeWebServiceRef.GetAllUserDetailsRequest request);
+        
+        // CODEGEN: Generating message contract since element name GetMillionUsertableDataResult from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetMillionUsertableData", ReplyAction="*")]
+        WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse GetMillionUsertableData(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/GetMillionUsertableData", ReplyAction="*")]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse> GetMillionUsertableDataAsync(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest request);
+        
+        // CODEGEN: Generating message contract since element name DeleteUserResult from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/DeleteUser", ReplyAction="*")]
+        WebServicePractice.PracticeWebServiceRef.DeleteUserResponse DeleteUser(WebServicePractice.PracticeWebServiceRef.DeleteUserRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/DeleteUser", ReplyAction="*")]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.DeleteUserResponse> DeleteUserAsync(WebServicePractice.PracticeWebServiceRef.DeleteUserRequest request);
+        
+        // CODEGEN: Generating message contract since element name userName from namespace http://tempuri.org/ is not marked nillable
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/UpdateUser", ReplyAction="*")]
+        WebServicePractice.PracticeWebServiceRef.UpdateUserResponse UpdateUser(WebServicePractice.PracticeWebServiceRef.UpdateUserRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/UpdateUser", ReplyAction="*")]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.UpdateUserResponse> UpdateUserAsync(WebServicePractice.PracticeWebServiceRef.UpdateUserRequest request);
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -227,6 +248,223 @@ namespace WebServicePractice.PracticeWebServiceRef {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetMillionUsertableDataRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetMillionUsertableData", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequestBody Body;
+        
+        public GetMillionUsertableDataRequest() {
+        }
+        
+        public GetMillionUsertableDataRequest(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute()]
+    public partial class GetMillionUsertableDataRequestBody {
+        
+        public GetMillionUsertableDataRequestBody() {
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class GetMillionUsertableDataResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="GetMillionUsertableDataResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponseBody Body;
+        
+        public GetMillionUsertableDataResponse() {
+        }
+        
+        public GetMillionUsertableDataResponse(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class GetMillionUsertableDataResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public System.Xml.Linq.XElement GetMillionUsertableDataResult;
+        
+        public GetMillionUsertableDataResponseBody() {
+        }
+        
+        public GetMillionUsertableDataResponseBody(System.Xml.Linq.XElement GetMillionUsertableDataResult) {
+            this.GetMillionUsertableDataResult = GetMillionUsertableDataResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteUserRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUser", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.DeleteUserRequestBody Body;
+        
+        public DeleteUserRequest() {
+        }
+        
+        public DeleteUserRequest(WebServicePractice.PracticeWebServiceRef.DeleteUserRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class DeleteUserRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int id;
+        
+        public DeleteUserRequestBody() {
+        }
+        
+        public DeleteUserRequestBody(int id) {
+            this.id = id;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class DeleteUserResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="DeleteUserResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.DeleteUserResponseBody Body;
+        
+        public DeleteUserResponse() {
+        }
+        
+        public DeleteUserResponse(WebServicePractice.PracticeWebServiceRef.DeleteUserResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class DeleteUserResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string DeleteUserResult;
+        
+        public DeleteUserResponseBody() {
+        }
+        
+        public DeleteUserResponseBody(string DeleteUserResult) {
+            this.DeleteUserResult = DeleteUserResult;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserRequest {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUser", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.UpdateUserRequestBody Body;
+        
+        public UpdateUserRequest() {
+        }
+        
+        public UpdateUserRequest(WebServicePractice.PracticeWebServiceRef.UpdateUserRequestBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class UpdateUserRequestBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int userId;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=1)]
+        public string userName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
+        public string email;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=3)]
+        public string fullName;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=4)]
+        public string mobileNo;
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=5)]
+        public string city;
+        
+        public UpdateUserRequestBody() {
+        }
+        
+        public UpdateUserRequestBody(int userId, string userName, string email, string fullName, string mobileNo, string city) {
+            this.userId = userId;
+            this.userName = userName;
+            this.email = email;
+            this.fullName = fullName;
+            this.mobileNo = mobileNo;
+            this.city = city;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    public partial class UpdateUserResponse {
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Name="UpdateUserResponse", Namespace="http://tempuri.org/", Order=0)]
+        public WebServicePractice.PracticeWebServiceRef.UpdateUserResponseBody Body;
+        
+        public UpdateUserResponse() {
+        }
+        
+        public UpdateUserResponse(WebServicePractice.PracticeWebServiceRef.UpdateUserResponseBody Body) {
+            this.Body = Body;
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
+    public partial class UpdateUserResponseBody {
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=0)]
+        public string UpdateUserResult;
+        
+        public UpdateUserResponseBody() {
+        }
+        
+        public UpdateUserResponseBody(string UpdateUserResult) {
+            this.UpdateUserResult = UpdateUserResult;
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface WebService1SoapChannel : WebServicePractice.PracticeWebServiceRef.WebService1Soap, System.ServiceModel.IClientChannel {
     }
@@ -323,6 +561,89 @@ namespace WebServicePractice.PracticeWebServiceRef {
             WebServicePractice.PracticeWebServiceRef.GetAllUserDetailsRequest inValue = new WebServicePractice.PracticeWebServiceRef.GetAllUserDetailsRequest();
             inValue.Body = new WebServicePractice.PracticeWebServiceRef.GetAllUserDetailsRequestBody();
             return ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).GetAllUserDetailsAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse WebServicePractice.PracticeWebServiceRef.WebService1Soap.GetMillionUsertableData(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest request) {
+            return base.Channel.GetMillionUsertableData(request);
+        }
+        
+        public System.Xml.Linq.XElement GetMillionUsertableData() {
+            WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest inValue = new WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequestBody();
+            WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse retVal = ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).GetMillionUsertableData(inValue);
+            return retVal.Body.GetMillionUsertableDataResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse> WebServicePractice.PracticeWebServiceRef.WebService1Soap.GetMillionUsertableDataAsync(WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest request) {
+            return base.Channel.GetMillionUsertableDataAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataResponse> GetMillionUsertableDataAsync() {
+            WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest inValue = new WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.GetMillionUsertableDataRequestBody();
+            return ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).GetMillionUsertableDataAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WebServicePractice.PracticeWebServiceRef.DeleteUserResponse WebServicePractice.PracticeWebServiceRef.WebService1Soap.DeleteUser(WebServicePractice.PracticeWebServiceRef.DeleteUserRequest request) {
+            return base.Channel.DeleteUser(request);
+        }
+        
+        public string DeleteUser(int id) {
+            WebServicePractice.PracticeWebServiceRef.DeleteUserRequest inValue = new WebServicePractice.PracticeWebServiceRef.DeleteUserRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.DeleteUserRequestBody();
+            inValue.Body.id = id;
+            WebServicePractice.PracticeWebServiceRef.DeleteUserResponse retVal = ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).DeleteUser(inValue);
+            return retVal.Body.DeleteUserResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.DeleteUserResponse> WebServicePractice.PracticeWebServiceRef.WebService1Soap.DeleteUserAsync(WebServicePractice.PracticeWebServiceRef.DeleteUserRequest request) {
+            return base.Channel.DeleteUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.DeleteUserResponse> DeleteUserAsync(int id) {
+            WebServicePractice.PracticeWebServiceRef.DeleteUserRequest inValue = new WebServicePractice.PracticeWebServiceRef.DeleteUserRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.DeleteUserRequestBody();
+            inValue.Body.id = id;
+            return ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).DeleteUserAsync(inValue);
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        WebServicePractice.PracticeWebServiceRef.UpdateUserResponse WebServicePractice.PracticeWebServiceRef.WebService1Soap.UpdateUser(WebServicePractice.PracticeWebServiceRef.UpdateUserRequest request) {
+            return base.Channel.UpdateUser(request);
+        }
+        
+        public string UpdateUser(int userId, string userName, string email, string fullName, string mobileNo, string city) {
+            WebServicePractice.PracticeWebServiceRef.UpdateUserRequest inValue = new WebServicePractice.PracticeWebServiceRef.UpdateUserRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.UpdateUserRequestBody();
+            inValue.Body.userId = userId;
+            inValue.Body.userName = userName;
+            inValue.Body.email = email;
+            inValue.Body.fullName = fullName;
+            inValue.Body.mobileNo = mobileNo;
+            inValue.Body.city = city;
+            WebServicePractice.PracticeWebServiceRef.UpdateUserResponse retVal = ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).UpdateUser(inValue);
+            return retVal.Body.UpdateUserResult;
+        }
+        
+        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
+        System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.UpdateUserResponse> WebServicePractice.PracticeWebServiceRef.WebService1Soap.UpdateUserAsync(WebServicePractice.PracticeWebServiceRef.UpdateUserRequest request) {
+            return base.Channel.UpdateUserAsync(request);
+        }
+        
+        public System.Threading.Tasks.Task<WebServicePractice.PracticeWebServiceRef.UpdateUserResponse> UpdateUserAsync(int userId, string userName, string email, string fullName, string mobileNo, string city) {
+            WebServicePractice.PracticeWebServiceRef.UpdateUserRequest inValue = new WebServicePractice.PracticeWebServiceRef.UpdateUserRequest();
+            inValue.Body = new WebServicePractice.PracticeWebServiceRef.UpdateUserRequestBody();
+            inValue.Body.userId = userId;
+            inValue.Body.userName = userName;
+            inValue.Body.email = email;
+            inValue.Body.fullName = fullName;
+            inValue.Body.mobileNo = mobileNo;
+            inValue.Body.city = city;
+            return ((WebServicePractice.PracticeWebServiceRef.WebService1Soap)(this)).UpdateUserAsync(inValue);
         }
     }
 }
