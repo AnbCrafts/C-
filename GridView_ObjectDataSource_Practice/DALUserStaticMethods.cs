@@ -10,6 +10,60 @@ namespace GridView_ObjectDataSource_Practice
         private static string connectionString =
             ConfigurationManager.ConnectionStrings["ObjectDataSourceDB"].ConnectionString;
 
+        public static DataTable GetAllUsersShortDetailList(int indexNo, int pageSize, out int totalRows)
+        {
+            DataTable dt = new DataTable();
+            totalRows = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("udp_GetDynamicallyPaginatedUsersShortDescriptionList", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@pgIndex", indexNo);
+                    cmd.Parameters.AddWithValue("@pageSize", pageSize);
+
+                    SqlParameter totalRowsParam = new SqlParameter("@totalRows", SqlDbType.Int);
+                    totalRowsParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(totalRowsParam);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    totalRows = Convert.ToInt32(totalRowsParam.Value);
+                }
+            }
+
+            return dt;
+        }
+        public static DataTable GetAllUsers(int indexNo, int pageSize, out int totalRows)
+        {
+            DataTable dt = new DataTable();
+            totalRows = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("udp_GetDynamicallyPaginatedUsersList", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@pgIndex", indexNo);
+                    cmd.Parameters.AddWithValue("@pageSize", pageSize);
+
+                    SqlParameter totalRowsParam = new SqlParameter("@totalRows", SqlDbType.Int);
+                    totalRowsParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(totalRowsParam);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+                    totalRows = Convert.ToInt32(totalRowsParam.Value);
+                }
+            }
+
+            return dt;
+        }
         public static DataTable GetAllUsers()
         {
             DataTable dt = new DataTable();
@@ -27,6 +81,29 @@ namespace GridView_ObjectDataSource_Practice
             return dt;
         }
 
+        public static DataTable GetUserById(int id)
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd =
+                    new SqlCommand("udp_GetUserById", con);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue(
+                    "@userId",
+                    id);
+
+                SqlDataAdapter da =
+                    new SqlDataAdapter(cmd);
+
+                da.Fill(dt);
+            }
+
+            return dt;
+        }
         public static void DeleteUserById(int userId)
         {
             using (SqlConnection con = new SqlConnection(connectionString))

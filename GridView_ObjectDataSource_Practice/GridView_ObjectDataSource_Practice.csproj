@@ -120,6 +120,9 @@
     <Content Include="Content\Site.css" />
     <Content Include="CRUD_User.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="DynamicPagination.aspx" />
+    <Content Include="DynamicPagination2.aspx" />
+    <Content Include="DynamicPagination3.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -178,6 +181,8 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="Site.Master" />
+    <Content Include="UserListDetailedDescription.aspx" />
+    <Content Include="UserListShortDetail.aspx" />
     <Content Include="User_CRUD_Non_ObjectDataSource.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
@@ -216,6 +221,27 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="DynamicPagination.aspx.cs">
+      <DependentUpon>DynamicPagination.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DynamicPagination.aspx.designer.cs">
+      <DependentUpon>DynamicPagination.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicPagination2.aspx.cs">
+      <DependentUpon>DynamicPagination2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DynamicPagination2.aspx.designer.cs">
+      <DependentUpon>DynamicPagination2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DynamicPagination3.aspx.cs">
+      <DependentUpon>DynamicPagination3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DynamicPagination3.aspx.designer.cs">
+      <DependentUpon>DynamicPagination3.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -236,6 +262,20 @@
     </Compile>
     <Compile Include="User.cs" />
     <Compile Include="UserDAL.cs" />
+    <Compile Include="UserListDetailedDescription.aspx.cs">
+      <DependentUpon>UserListDetailedDescription.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserListDetailedDescription.aspx.designer.cs">
+      <DependentUpon>UserListDetailedDescription.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserListShortDetail.aspx.cs">
+      <DependentUpon>UserListShortDetail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserListShortDetail.aspx.designer.cs">
+      <DependentUpon>UserListShortDetail.aspx</DependentUpon>
+    </Compile>
     <Compile Include="User_CRUD_Non_ObjectDataSource.aspx.cs">
       <DependentUpon>User_CRUD_Non_ObjectDataSource.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
