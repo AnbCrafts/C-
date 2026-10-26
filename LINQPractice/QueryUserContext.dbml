@@ -1,1 +1,104 @@
-﻿
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AssignmentDB" Class="QueryUserContextDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Function Name="dbo.udp_CreateUser" Method="udp_CreateUser">
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="FullName" Parameter="fullName" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="MobileNo" Parameter="mobileNo" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="StateName" Parameter="stateName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Country" Parameter="country" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Gender" Parameter="gender" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="QueryText" Parameter="queryText" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="QueryAmount" Parameter="queryAmount" Type="System.Decimal" DbType="Decimal(18,2)" />
+    <ElementType Name="udp_CreateUserResult">
+      <Column Name="UserId" Type="System.Decimal" DbType="Decimal(38,0)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_UpdateUser" Method="udp_UpdateUser">
+    <Parameter Name="UserId" Parameter="userId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="UserName" Parameter="userName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="FullName" Parameter="fullName" Type="System.String" DbType="VarChar(200)" />
+    <Parameter Name="MobileNo" Parameter="mobileNo" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="City" Parameter="city" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="StateName" Parameter="stateName" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Country" Parameter="country" Type="System.String" DbType="VarChar(100)" />
+    <Parameter Name="Gender" Parameter="gender" Type="System.String" DbType="VarChar(20)" />
+    <Parameter Name="QueryText" Parameter="queryText" Type="System.String" DbType="VarChar(MAX)" />
+    <Parameter Name="IsActive" Parameter="isActive" Type="System.Boolean" DbType="Bit" />
+    <Parameter Name="QueryAmount" Parameter="queryAmount" Type="System.Decimal" DbType="Decimal(18,2)" />
+    <ElementType Name="udp_UpdateUserResult">
+      <Column Name="RowsAffected" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_GetUserById" Method="udp_GetUserById">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="udp_GetUserByIdResult">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="MobileNo" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="StateName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="QueryText" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="QueryAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_GetDynamicallyPaginatedUsersShortDescriptionList" Method="udp_GetDynamicallyPaginatedUsersShortDescriptionList">
+    <Parameter Name="pgIndex" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="totalRows" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="udp_GetDynamicallyPaginatedUsersShortDescriptionListResult">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_GetDynamicallyPaginatedUsersList" Method="udp_GetDynamicallyPaginatedUsersList">
+    <Parameter Name="pgIndex" Type="System.Int32" DbType="Int" />
+    <Parameter Name="pageSize" Type="System.Int32" DbType="Int" />
+    <Parameter Name="totalRows" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <ElementType Name="udp_GetDynamicallyPaginatedUsersListResult">
+      <Column Name="RowNumber" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="MobileNo" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="StateName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="QueryText" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="QueryAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_GetAllUsers" Method="udp_GetAllUsers">
+    <ElementType Name="udp_GetAllUsersResult">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="FullName" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="MobileNo" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="StateName" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="QueryText" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="CreatedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="QueryAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.udp_DeleteUserById" Method="udp_DeleteUserById">
+    <Parameter Name="userId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

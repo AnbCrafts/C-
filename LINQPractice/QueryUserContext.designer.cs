@@ -30,9 +30,6 @@ namespace LINQPractice
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertQueryUser(QueryUser instance);
-    partial void UpdateQueryUser(QueryUser instance);
-    partial void DeleteQueryUser(QueryUser instance);
     #endregion
 		
 		public QueryUserContextDataContext(string connection) : 
@@ -59,20 +56,112 @@ namespace LINQPractice
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<QueryUser> QueryUsers
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_CreateUser")]
+		public ISingleResult<udp_CreateUserResult> udp_CreateUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(100)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="VarChar(200)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FullName", DbType="VarChar(200)")] string fullName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MobileNo", DbType="VarChar(20)")] string mobileNo, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="City", DbType="VarChar(100)")] string city, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="StateName", DbType="VarChar(100)")] string stateName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Country", DbType="VarChar(100)")] string country, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Gender", DbType="VarChar(20)")] string gender, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="QueryText", DbType="VarChar(MAX)")] string queryText, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="QueryAmount", DbType="Decimal(18,2)")] System.Nullable<decimal> queryAmount)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userName, email, fullName, mobileNo, city, stateName, country, gender, queryText, queryAmount);
+			return ((ISingleResult<udp_CreateUserResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_UpdateUser")]
+		public ISingleResult<udp_UpdateUserResult> udp_UpdateUser([global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserId", DbType="Int")] System.Nullable<int> userId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="UserName", DbType="VarChar(100)")] string userName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Email", DbType="VarChar(200)")] string email, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FullName", DbType="VarChar(200)")] string fullName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="MobileNo", DbType="VarChar(20)")] string mobileNo, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="City", DbType="VarChar(100)")] string city, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="StateName", DbType="VarChar(100)")] string stateName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Country", DbType="VarChar(100)")] string country, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Gender", DbType="VarChar(20)")] string gender, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="QueryText", DbType="VarChar(MAX)")] string queryText, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="IsActive", DbType="Bit")] System.Nullable<bool> isActive, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="QueryAmount", DbType="Decimal(18,2)")] System.Nullable<decimal> queryAmount)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId, userName, email, fullName, mobileNo, city, stateName, country, gender, queryText, isActive, queryAmount);
+			return ((ISingleResult<udp_UpdateUserResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_GetUserById")]
+		public ISingleResult<udp_GetUserByIdResult> udp_GetUserById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((ISingleResult<udp_GetUserByIdResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_GetDynamicallyPaginatedUsersShortDescriptionList")]
+		public ISingleResult<udp_GetDynamicallyPaginatedUsersShortDescriptionListResult> udp_GetDynamicallyPaginatedUsersShortDescriptionList([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> pgIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> pageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> totalRows)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), pgIndex, pageSize, totalRows);
+			totalRows = ((System.Nullable<int>)(result.GetParameterValue(2)));
+			return ((ISingleResult<udp_GetDynamicallyPaginatedUsersShortDescriptionListResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_GetDynamicallyPaginatedUsersList")]
+		public ISingleResult<udp_GetDynamicallyPaginatedUsersListResult> udp_GetDynamicallyPaginatedUsersList([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> pgIndex, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> pageSize, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] ref System.Nullable<int> totalRows)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), pgIndex, pageSize, totalRows);
+			totalRows = ((System.Nullable<int>)(result.GetParameterValue(2)));
+			return ((ISingleResult<udp_GetDynamicallyPaginatedUsersListResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_GetAllUsers")]
+		public ISingleResult<udp_GetAllUsersResult> udp_GetAllUsers()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<udp_GetAllUsersResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.udp_DeleteUserById")]
+		public int udp_DeleteUserById([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> userId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), userId);
+			return ((int)(result.ReturnValue));
+		}
+	}
+	
+	public partial class udp_CreateUserResult
+	{
+		
+		private System.Nullable<decimal> _UserId;
+		
+		public udp_CreateUserResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Decimal(38,0)")]
+		public System.Nullable<decimal> UserId
 		{
 			get
 			{
-				return this.GetTable<QueryUser>();
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="labTest.QueryUser")]
-	public partial class QueryUser : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class udp_UpdateUserResult
 	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		private int _RowsAffected;
+		
+		public udp_UpdateUserResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RowsAffected", DbType="Int NOT NULL")]
+		public int RowsAffected
+		{
+			get
+			{
+				return this._RowsAffected;
+			}
+			set
+			{
+				if ((this._RowsAffected != value))
+				{
+					this._RowsAffected = value;
+				}
+			}
+		}
+	}
+	
+	public partial class udp_GetUserByIdResult
+	{
 		
 		private int _UserId;
 		
@@ -100,44 +189,11 @@ namespace LINQPractice
 		
 		private System.Nullable<decimal> _QueryAmount;
 		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    partial void OnUserNameChanging(string value);
-    partial void OnUserNameChanged();
-    partial void OnEmailChanging(string value);
-    partial void OnEmailChanged();
-    partial void OnFullNameChanging(string value);
-    partial void OnFullNameChanged();
-    partial void OnMobileNoChanging(string value);
-    partial void OnMobileNoChanged();
-    partial void OnCityChanging(string value);
-    partial void OnCityChanged();
-    partial void OnStateNameChanging(string value);
-    partial void OnStateNameChanged();
-    partial void OnCountryChanging(string value);
-    partial void OnCountryChanged();
-    partial void OnGenderChanging(string value);
-    partial void OnGenderChanged();
-    partial void OnQueryTextChanging(string value);
-    partial void OnQueryTextChanged();
-    partial void OnCreatedDateChanging(System.DateTime value);
-    partial void OnCreatedDateChanged();
-    partial void OnIsActiveChanging(bool value);
-    partial void OnIsActiveChanged();
-    partial void OnQueryAmountChanging(System.Nullable<decimal> value);
-    partial void OnQueryAmountChanged();
-    #endregion
-		
-		public QueryUser()
+		public udp_GetUserByIdResult()
 		{
-			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
 		public int UserId
 		{
 			get
@@ -148,11 +204,7 @@ namespace LINQPractice
 			{
 				if ((this._UserId != value))
 				{
-					this.OnUserIdChanging(value);
-					this.SendPropertyChanging();
 					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
 				}
 			}
 		}
@@ -168,11 +220,7 @@ namespace LINQPractice
 			{
 				if ((this._UserName != value))
 				{
-					this.OnUserNameChanging(value);
-					this.SendPropertyChanging();
 					this._UserName = value;
-					this.SendPropertyChanged("UserName");
-					this.OnUserNameChanged();
 				}
 			}
 		}
@@ -188,11 +236,7 @@ namespace LINQPractice
 			{
 				if ((this._Email != value))
 				{
-					this.OnEmailChanging(value);
-					this.SendPropertyChanging();
 					this._Email = value;
-					this.SendPropertyChanged("Email");
-					this.OnEmailChanged();
 				}
 			}
 		}
@@ -208,11 +252,7 @@ namespace LINQPractice
 			{
 				if ((this._FullName != value))
 				{
-					this.OnFullNameChanging(value);
-					this.SendPropertyChanging();
 					this._FullName = value;
-					this.SendPropertyChanged("FullName");
-					this.OnFullNameChanged();
 				}
 			}
 		}
@@ -228,11 +268,7 @@ namespace LINQPractice
 			{
 				if ((this._MobileNo != value))
 				{
-					this.OnMobileNoChanging(value);
-					this.SendPropertyChanging();
 					this._MobileNo = value;
-					this.SendPropertyChanged("MobileNo");
-					this.OnMobileNoChanged();
 				}
 			}
 		}
@@ -248,11 +284,7 @@ namespace LINQPractice
 			{
 				if ((this._City != value))
 				{
-					this.OnCityChanging(value);
-					this.SendPropertyChanging();
 					this._City = value;
-					this.SendPropertyChanged("City");
-					this.OnCityChanged();
 				}
 			}
 		}
@@ -268,11 +300,7 @@ namespace LINQPractice
 			{
 				if ((this._StateName != value))
 				{
-					this.OnStateNameChanging(value);
-					this.SendPropertyChanging();
 					this._StateName = value;
-					this.SendPropertyChanged("StateName");
-					this.OnStateNameChanged();
 				}
 			}
 		}
@@ -288,11 +316,7 @@ namespace LINQPractice
 			{
 				if ((this._Country != value))
 				{
-					this.OnCountryChanging(value);
-					this.SendPropertyChanging();
 					this._Country = value;
-					this.SendPropertyChanged("Country");
-					this.OnCountryChanged();
 				}
 			}
 		}
@@ -308,11 +332,7 @@ namespace LINQPractice
 			{
 				if ((this._Gender != value))
 				{
-					this.OnGenderChanging(value);
-					this.SendPropertyChanging();
 					this._Gender = value;
-					this.SendPropertyChanged("Gender");
-					this.OnGenderChanged();
 				}
 			}
 		}
@@ -328,11 +348,7 @@ namespace LINQPractice
 			{
 				if ((this._QueryText != value))
 				{
-					this.OnQueryTextChanging(value);
-					this.SendPropertyChanging();
 					this._QueryText = value;
-					this.SendPropertyChanged("QueryText");
-					this.OnQueryTextChanged();
 				}
 			}
 		}
@@ -348,11 +364,7 @@ namespace LINQPractice
 			{
 				if ((this._CreatedDate != value))
 				{
-					this.OnCreatedDateChanging(value);
-					this.SendPropertyChanging();
 					this._CreatedDate = value;
-					this.SendPropertyChanged("CreatedDate");
-					this.OnCreatedDateChanged();
 				}
 			}
 		}
@@ -368,11 +380,7 @@ namespace LINQPractice
 			{
 				if ((this._IsActive != value))
 				{
-					this.OnIsActiveChanging(value);
-					this.SendPropertyChanging();
 					this._IsActive = value;
-					this.SendPropertyChanged("IsActive");
-					this.OnIsActiveChanged();
 				}
 			}
 		}
@@ -388,32 +396,572 @@ namespace LINQPractice
 			{
 				if ((this._QueryAmount != value))
 				{
-					this.OnQueryAmountChanging(value);
-					this.SendPropertyChanging();
 					this._QueryAmount = value;
-					this.SendPropertyChanged("QueryAmount");
-					this.OnQueryAmountChanged();
+				}
+			}
+		}
+	}
+	
+	public partial class udp_GetDynamicallyPaginatedUsersShortDescriptionListResult
+	{
+		
+		private int _UserId;
+		
+		private string _UserName;
+		
+		private string _Email;
+		
+		public udp_GetDynamicallyPaginatedUsersShortDescriptionListResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
 				}
 			}
 		}
 		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string UserName
 		{
-			if ((this.PropertyChanging != null))
+			get
 			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
 			}
 		}
 		
-		protected virtual void SendPropertyChanged(String propertyName)
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Email
 		{
-			if ((this.PropertyChanged != null))
+			get
 			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+	}
+	
+	public partial class udp_GetDynamicallyPaginatedUsersListResult
+	{
+		
+		private System.Nullable<long> _RowNumber;
+		
+		private int _UserId;
+		
+		private string _UserName;
+		
+		private string _Email;
+		
+		private string _FullName;
+		
+		private string _MobileNo;
+		
+		private string _City;
+		
+		private string _StateName;
+		
+		private string _Country;
+		
+		private string _Gender;
+		
+		private string _QueryText;
+		
+		private System.DateTime _CreatedDate;
+		
+		private bool _IsActive;
+		
+		private System.Nullable<decimal> _QueryAmount;
+		
+		public udp_GetDynamicallyPaginatedUsersListResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RowNumber", DbType="BigInt")]
+		public System.Nullable<long> RowNumber
+		{
+			get
+			{
+				return this._RowNumber;
+			}
+			set
+			{
+				if ((this._RowNumber != value))
+				{
+					this._RowNumber = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="VarChar(150)")]
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+			set
+			{
+				if ((this._FullName != value))
+				{
+					this._FullName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileNo", DbType="VarChar(15)")]
+		public string MobileNo
+		{
+			get
+			{
+				return this._MobileNo;
+			}
+			set
+			{
+				if ((this._MobileNo != value))
+				{
+					this._MobileNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="VarChar(100)")]
+		public string City
+		{
+			get
+			{
+				return this._City;
+			}
+			set
+			{
+				if ((this._City != value))
+				{
+					this._City = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateName", DbType="VarChar(100)")]
+		public string StateName
+		{
+			get
+			{
+				return this._StateName;
+			}
+			set
+			{
+				if ((this._StateName != value))
+				{
+					this._StateName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country", DbType="VarChar(100)")]
+		public string Country
+		{
+			get
+			{
+				return this._Country;
+			}
+			set
+			{
+				if ((this._Country != value))
+				{
+					this._Country = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="VarChar(10)")]
+		public string Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this._Gender = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueryText", DbType="VarChar(MAX)")]
+		public string QueryText
+		{
+			get
+			{
+				return this._QueryText;
+			}
+			set
+			{
+				if ((this._QueryText != value))
+				{
+					this._QueryText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this._CreatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this._IsActive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueryAmount", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> QueryAmount
+		{
+			get
+			{
+				return this._QueryAmount;
+			}
+			set
+			{
+				if ((this._QueryAmount != value))
+				{
+					this._QueryAmount = value;
+				}
+			}
+		}
+	}
+	
+	public partial class udp_GetAllUsersResult
+	{
+		
+		private int _UserId;
+		
+		private string _UserName;
+		
+		private string _Email;
+		
+		private string _FullName;
+		
+		private string _MobileNo;
+		
+		private string _City;
+		
+		private string _StateName;
+		
+		private string _Country;
+		
+		private string _Gender;
+		
+		private string _QueryText;
+		
+		private System.DateTime _CreatedDate;
+		
+		private bool _IsActive;
+		
+		private System.Nullable<decimal> _QueryAmount;
+		
+		public udp_GetAllUsersResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int NOT NULL")]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this._UserId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this._UserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this._Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="VarChar(150)")]
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+			set
+			{
+				if ((this._FullName != value))
+				{
+					this._FullName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobileNo", DbType="VarChar(15)")]
+		public string MobileNo
+		{
+			get
+			{
+				return this._MobileNo;
+			}
+			set
+			{
+				if ((this._MobileNo != value))
+				{
+					this._MobileNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_City", DbType="VarChar(100)")]
+		public string City
+		{
+			get
+			{
+				return this._City;
+			}
+			set
+			{
+				if ((this._City != value))
+				{
+					this._City = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateName", DbType="VarChar(100)")]
+		public string StateName
+		{
+			get
+			{
+				return this._StateName;
+			}
+			set
+			{
+				if ((this._StateName != value))
+				{
+					this._StateName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Country", DbType="VarChar(100)")]
+		public string Country
+		{
+			get
+			{
+				return this._Country;
+			}
+			set
+			{
+				if ((this._Country != value))
+				{
+					this._Country = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="VarChar(10)")]
+		public string Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this._Gender = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueryText", DbType="VarChar(MAX)")]
+		public string QueryText
+		{
+			get
+			{
+				return this._QueryText;
+			}
+			set
+			{
+				if ((this._QueryText != value))
+				{
+					this._QueryText = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this._CreatedDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this._IsActive = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QueryAmount", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> QueryAmount
+		{
+			get
+			{
+				return this._QueryAmount;
+			}
+			set
+			{
+				if ((this._QueryAmount != value))
+				{
+					this._QueryAmount = value;
+				}
 			}
 		}
 	}

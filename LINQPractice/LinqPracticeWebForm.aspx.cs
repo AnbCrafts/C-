@@ -21,9 +21,8 @@ namespace LINQPractice
         {
             using (QueryUserContext dataContext = new QueryUserContext())
             {
-                var users = from user in dataContext.QueryUsers
-                            where user.Gender == "Male"
-                            select user;
+                var users =  dataContext.udp_GetAllUsers();
+                            
 
                 gvUsers.DataSource = users.ToList();
                 gvUsers.DataBind();
