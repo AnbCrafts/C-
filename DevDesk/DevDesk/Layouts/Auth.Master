@@ -1,19 +1,54 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Auth.master.cs" Inherits="DevDesk.Layouts.Auth" %>
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Auth.master.cs" Inherits="DevDesk.Layouts.Auth" %>
 
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head runat="server">
-    <title></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - DevDesk Portal</title>
+
+    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
-    <form id="form1" runat="server">
-        <div>
+<body class="bg-light d-flex flex-column min-vh-100">
+    <form id="form1" runat="server" class="flex-grow-1 d-flex flex-column justify-content-center">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+            </Scripts>
+        </asp:ScriptManager>
+
+        <!-- Navbar brand header for Auth pages -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-2 shadow-sm">
+            <div class="container justify-content-between">
+                <a class="navbar-brand fw-bold text-primary" href="~/Default.aspx" runat="server">
+                    <i class="bi bi-shield-check text-warning me-1"></i> DevDesk <span class="text-white-50 fs-6 fw-normal">| Portal</span>
+                </a>
+                <a href="~/Default.aspx" runat="server" class="btn btn-sm btn-outline-light">
+                    <i class="bi bi-house-door-fill me-1"></i> Home
+                </a>
+            </div>
+        </nav>
+
+        <main class="container py-4 flex-grow-1 d-flex align-items-center justify-content-center">
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
-        </div>
+        </main>
+
+        <footer class="text-center py-3 text-muted small border-top bg-white">
+            &copy; <%: DateTime.Now.Year %> DevDesk IT Helpdesk & Asset Management Portal
+        </footer>
     </form>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/Scripts/bootstrap.js") %>
+    </asp:PlaceHolder>
 </body>
 </html>
