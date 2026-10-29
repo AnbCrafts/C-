@@ -1,0 +1,120 @@
+@model MVCPracticeProject.ViewModels.DoctorPatientViewModel
+
+@{
+    ViewBag.Title = "Edit Doctor (ViewModel)";
+}
+
+<div class="container mt-4">
+    <h2>Edit Doctor & View Assigned Patients</h2>
+    <hr />
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="row">
+        <!-- DOCTOR EDIT FORM -->
+        <div class="col-md-7">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Doctor Details (ID: @Model.Doctor.DoctorId)</h5>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Doctor.DoctorId)
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.FirstName, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.FirstName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.LastName, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.LastName, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.Specialization, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.Specialization, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.Specialization, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.DepartmentId, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.DepartmentId, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.DepartmentId, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.Email, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Doctor.PhoneNumber, htmlAttributes: new { @class = "form-label" })
+                            @Html.EditorFor(model => model.Doctor.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Doctor.PhoneNumber, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mt-4">
+                            <input type="submit" value="Save Changes" class="btn btn-primary" />
+                            @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-secondary ms-2" })
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- ASSIGNED PATIENTS PREVIEW -->
+        <div class="col-md-5">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Assigned Patients (@(Model.Patients != null ? Model.Patients.Count : 0))</h5>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-sm table-striped mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Patient Name</th>
+                                <th>Disease</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Patients != null && Model.Patients.Any())
+                            {
+                                foreach (var p in Model.Patients)
+                                {
+                                    <tr>
+                                        <td>@p.PatientId</td>
+                                        <td>@p.FirstName @p.LastName</td>
+                                        <td>@p.Disease</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted p-3">No patients assigned yet.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

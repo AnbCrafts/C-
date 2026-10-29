@@ -46,5 +46,9 @@ namespace MVCPracticeProject.Models
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Please enter a valid 10-digit phone number.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
     }
 }

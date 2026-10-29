@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Web.Mvc;
 using MVCPracticeProject.Models;
 
@@ -9,10 +9,11 @@ namespace MVCPracticeProject.Controllers
         private DoctorRepository repo = new DoctorRepository();
 
         // GET: Doctor
-            public ActionResult Index(){
+        public ActionResult Index()
+        {
             var doctors = repo.GetAllDoctors();
             return View(doctors);
-            }
+        }
 
         public ActionResult DocList()
         {
@@ -121,6 +122,86 @@ namespace MVCPracticeProject.Controllers
                 ViewBag.Error = ex.Message;
                 return View();
             }
+        }
+
+        // GET: Doctor/Register
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: Doctor/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(Doctor doctor)
+        {
+            try
+            {
+                string result = repo.RegisterDoctor(doctor);
+                if (result == "Success")
+                {
+                    TempData["Message"] = "Doctor registered successfully! Please log in.";
+                    return RedirectToAction("Login");
+                }
+
+                ViewBag.Error = result;
+                return View(doctor);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View(doctor);
+            }
+        }
+
+        // GET: Doctor/Login
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: Doctor/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(string email, string password)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+                {
+                    ViewBag.Error = "Please enter both Email and Password.";
+                    return View();
+                }
+
+                var doctor = repo.ValidateDoctor(email, password);
+                if (doctor != null)
+                {
+                    Session["DoctorId"] = doctor.DoctorId;
+                    Session["DoctorName"] = "Dr. " + doctor.FirstName + " " + doctor.LastName;
+                    Session["DoctorEmail"] = doctor.Email;
+
+                    return RedirectToAction("Index", "DocPatient");
+                }
+
+                ViewBag.Error = "Invalid Email or Password.";
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                return View();
+            }
+        }
+
+        // GET: Doctor/Logout
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            Session.Abandon();
+            TempData["Message"] = "You have been logged out.";
+            return RedirectToAction("Login");
         }
     }
 }

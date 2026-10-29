@@ -1,0 +1,122 @@
+@model MVCPracticeProject.ViewModels.DoctorPatientViewModel
+
+@{
+    ViewBag.Title = "Doctors and Patients";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">Hospital Overview (Doctor & Patient View)</h2>
+    <hr />
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+        </div>
+    }
+
+    <!-- DOCTORS SECTION -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">Doctors List (@(Model.Doctors != null ? Model.Doctors.Count : 0))</h4>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-bordered table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Doctor ID</th>
+                        <th>Name</th>
+                        <th>Specialization</th>
+                        <th>Department</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Doctors != null && Model.Doctors.Any())
+                    {
+                        foreach (var doc in Model.Doctors)
+                        {
+                            <tr>
+                                <td>@doc.DoctorId</td>
+                                <td>Dr. @doc.FirstName @doc.LastName</td>
+                                <td>@doc.Specialization</td>
+                                <td>@doc.DepartmentId</td>
+                                <td>@doc.Email</td>
+                                <td>@doc.PhoneNumber</td>
+                                <td>
+                                    @Html.ActionLink("Details", "Details", new { id = doc.DoctorId }, new { @class = "btn btn-sm btn-info text-white" })
+                                    @Html.ActionLink("Edit", "Edit", new { id = doc.DoctorId }, new { @class = "btn btn-sm btn-warning" })
+                                    @Html.ActionLink("Delete", "Delete", new { id = doc.DoctorId }, new { @class = "btn btn-sm btn-danger" })
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">No doctors found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PATIENTS SECTION -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Patients List (@(Model.Patients != null ? Model.Patients.Count : 0))</h4>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-bordered table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Blood Group</th>
+                        <th>Assigned Doctor ID</th>
+                        <th>Disease</th>
+                        <th>Admission Date</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Patients != null && Model.Patients.Any())
+                    {
+                        foreach (var patient in Model.Patients)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td>@patient.FirstName @patient.LastName</td>
+                                <td>@patient.Gender</td>
+                                <td>@patient.Age</td>
+                                <td>@patient.BloodGroup</td>
+                                <td>@patient.DoctorId</td>
+                                <td>@patient.Disease</td>
+                                <td>@patient.AdmissionDate.ToString("yyyy-MM-dd")</td>
+                                <td>@patient.PhoneNumber</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center text-muted">No patients found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

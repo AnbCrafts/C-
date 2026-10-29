@@ -1,0 +1,88 @@
+@model MVCPracticeProject.ViewModels.DoctorPatientViewModel
+
+@{
+    ViewBag.Title = "Delete Doctor (ViewModel)";
+}
+
+<div class="container mt-4">
+    <h2 class="text-danger">Delete Doctor Confirmation</h2>
+    <hr />
+
+    <div class="alert alert-warning">
+        <strong>Warning:</strong> You are about to delete this Doctor. Please review the doctor details and any currently assigned patients below.
+    </div>
+
+    @if (Model.Doctor != null)
+    {
+        <div class="card mb-4 border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Dr. @Model.Doctor.FirstName @Model.Doctor.LastName (ID: @Model.Doctor.DoctorId)</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Specialization</dt>
+                    <dd class="col-sm-9">@Model.Doctor.Specialization</dd>
+
+                    <dt class="col-sm-3">Department ID</dt>
+                    <dd class="col-sm-9">@Model.Doctor.DepartmentId</dd>
+
+                    <dt class="col-sm-3">Email</dt>
+                    <dd class="col-sm-9">@Model.Doctor.Email</dd>
+
+                    <dt class="col-sm-3">Phone</dt>
+                    <dd class="col-sm-9">@Model.Doctor.PhoneNumber</dd>
+                </dl>
+            </div>
+        </div>
+    }
+
+    <!-- ASSIGNED PATIENTS LIST -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Affected Assigned Patients (@(Model.Patients != null ? Model.Patients.Count : 0))</h5>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-bordered table-striped mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Disease</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Patients != null && Model.Patients.Any())
+                    {
+                        foreach (var patient in Model.Patients)
+                        {
+                            <tr>
+                                <td>@patient.PatientId</td>
+                                <td>@patient.FirstName @patient.LastName</td>
+                                <td>@patient.Gender</td>
+                                <td>@patient.Age</td>
+                                <td>@patient.Disease</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted p-3">No patients are currently assigned to this doctor.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions mt-3">
+            <input type="submit" value="Yes, Delete Doctor" class="btn btn-danger" />
+            @Html.ActionLink("Cancel & Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    }
+</div>

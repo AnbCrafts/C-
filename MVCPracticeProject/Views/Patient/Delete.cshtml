@@ -1,0 +1,35 @@
+@model MVCPracticeProject.Models.Patient
+
+@{
+    ViewBag.Title = "Delete Patient";
+}
+
+<h2>Delete Patient</h2>
+
+<h4 class="text-danger">Are you sure you want to delete this patient record?</h4>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PatientId)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PatientId)</dd>
+
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@(Model.FirstName + " " + Model.LastName)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Disease)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Disease)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DoctorId)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.DoctorId)</dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions mt-3">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+        </div>
+    }
+</div>

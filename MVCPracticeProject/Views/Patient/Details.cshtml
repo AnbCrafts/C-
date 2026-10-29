@@ -1,0 +1,50 @@
+@model MVCPracticeProject.Models.Patient
+
+@{
+    ViewBag.Title = "Patient Details";
+}
+
+<h2>Patient Details</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PatientId)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PatientId)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FirstName)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.FirstName)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.LastName)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.LastName)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Gender)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Gender)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Age)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Age)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.BloodGroup)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.BloodGroup)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.DoctorId)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.DoctorId)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Disease)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Disease)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.AdmissionDate)</dt>
+        <dd class="col-sm-9">@Model.AdmissionDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.PhoneNumber)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.PhoneNumber)</dd>
+    </dl>
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PatientId }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary ms-2" })
+</p>
