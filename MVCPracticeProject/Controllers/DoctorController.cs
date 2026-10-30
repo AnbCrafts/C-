@@ -1,6 +1,7 @@
 using System;
 using System.Web.Mvc;
 using MVCPracticeProject.Models;
+using MVCPracticeProject.Filters;
 
 namespace MVCPracticeProject.Controllers
 {
@@ -60,6 +61,7 @@ namespace MVCPracticeProject.Controllers
         }
 
         // GET: Doctor/Edit/5
+        [DoctorAuthorize]
         public ActionResult Edit(int id)
         {
             Doctor doctor = repo.GetSingleDoctorById(id);
@@ -74,6 +76,7 @@ namespace MVCPracticeProject.Controllers
 
         // POST: Doctor/Edit
         [HttpPost]
+        [DoctorAuthorize]
         public ActionResult Edit(Doctor doctor)
         {
             try
@@ -92,6 +95,7 @@ namespace MVCPracticeProject.Controllers
         }
 
         // GET: Doctor/Delete/5
+        [DoctorAuthorize]
         public ActionResult Delete(int id)
         {
             Doctor doctor = repo.GetSingleDoctorById(id);
@@ -107,6 +111,7 @@ namespace MVCPracticeProject.Controllers
         // POST: Doctor/Delete/5
         [HttpPost]
         [ActionName("Delete")]
+        [DoctorAuthorize]
         public ActionResult DeleteConfirmed(int id)
         {
             try

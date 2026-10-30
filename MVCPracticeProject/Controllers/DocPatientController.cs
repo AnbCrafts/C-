@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using MVCPracticeProject.Models;
 using MVCPracticeProject.ViewModels;
+using MVCPracticeProject.Filters;
 
 namespace MVCPracticeProject.Controllers
 {                
@@ -46,6 +47,7 @@ namespace MVCPracticeProject.Controllers
         }
 
         // GET: DocPatient/Edit/5 (Edit Doctor and view their assigned patients)
+        [DoctorAuthorize]
         public ActionResult Edit(int id)
         {
             var doctor = doctorRepo.GetSingleDoctorById(id);
@@ -68,6 +70,7 @@ namespace MVCPracticeProject.Controllers
         // POST: DocPatient/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [DoctorAuthorize]
         public ActionResult Edit(DoctorPatientViewModel viewModel)
         {
             try
@@ -96,6 +99,7 @@ namespace MVCPracticeProject.Controllers
         }
 
         // GET: DocPatient/Delete/5 (Delete Doctor confirmation + assigned patients warning)
+        [DoctorAuthorize]
         public ActionResult Delete(int id)
         {
             var doctor = doctorRepo.GetSingleDoctorById(id);
@@ -119,6 +123,7 @@ namespace MVCPracticeProject.Controllers
         [HttpPost]
         [ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [DoctorAuthorize]
         public ActionResult DeleteConfirmed(int id)
         {
             try
