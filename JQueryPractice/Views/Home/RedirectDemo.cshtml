@@ -1,0 +1,141 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Redirect Methods and Status Results Demo</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            margin: 20px;
+            background-color: #f4f6f9;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h2 {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .section-title {
+            color: #34495e;
+            margin-top: 30px;
+            border-left: 5px solid #2980b9;
+            padding-left: 10px;
+        }
+        .nav-links {
+            margin-bottom: 25px;
+        }
+        .nav-links a {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            background-color: #3498db;
+            color: white;
+            border-radius: 4px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .nav-links a.active {
+            background-color: #27ae60;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 15px 0 25px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 10.5pt;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .btn-primary { background-color: #3498db; }
+        .btn-success { background-color: #2ecc71; }
+        .btn-warning { background-color: #f39c12; }
+        .btn-danger { background-color: #e74c3c; }
+        .btn-dark { background-color: #34495e; }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="/Home/Index">Doctors DataTable</a>
+            <a href="/Home/JSGrid">JSGrid View</a>
+            <a href="/Home/RedirectDemo" class="active">Redirect & Status Results</a>
+            <a href="/User/InsertUserDetails">User Details (Slide 5-24)</a>
+        </div>
+
+        <h2>Redirect Methods & Status Results</h2>
+
+        <!-- SECTION 1: REDIRECT BUTTONS -->
+        <h3 class="section-title">Redirect Action Results</h3>
+        <div class="button-group">
+            <a href="/Home/TestRedirect" target="_blank" class="btn btn-primary">
+                Redirect ("https://mccit.net") &rarr;
+            </a>
+            <a href="/Home/TestRedirectToRoute" class="btn btn-success">
+                RedirectToRoute (/Home/About) &rarr;
+            </a>
+            <a href="/Home/TestRedirectToAction" class="btn btn-primary">
+                RedirectToAction (/Home/Contact) &rarr;
+            </a>
+            <a href="/Home/TestRedirectToActionSameController" class="btn btn-success">
+                RedirectToAction (/Home/About) &rarr;
+            </a>
+            <button id="btnClientRedirect" class="btn btn-dark">
+                jQuery Redirect (/User/InsertUserDetails) &rarr;
+            </button>
+        </div>
+
+        <!-- SECTION 2: STATUS CODE BUTTONS -->
+        <h3 class="section-title">Status Results (HTTP Status Codes)</h3>
+        <div class="button-group">
+            <a href="/Home/UnauthorizedStatusCode" target="_blank" class="btn btn-warning">
+                HttpStatusCodeResult (401 Unauthorized) &rarr;
+            </a>
+            <a href="/Home/BadGateway" target="_blank" class="btn btn-danger">
+                HttpStatusCodeResult (502 Bad Gateway) &rarr;
+            </a>
+            <a href="/Home/UnauthorizedResult" target="_blank" class="btn btn-warning">
+                HttpUnauthorizedResult (401) &rarr;
+            </a>
+            <a href="/Home/NotFound" target="_blank" class="btn btn-danger">
+                HttpNotFound (404) &rarr;
+            </a>
+        </div>
+    </div>
+
+    <!-- Client-Side jQuery Redirect Handler (Slide 4) -->
+    <script type="text/javascript">
+        $(function () {
+            $("#btnClientRedirect").click(function () {
+                window.location.href = "@Url.Action("InsertUserDetails", "User")";
+            });
+        });
+    </script>
+</body>
+</html>

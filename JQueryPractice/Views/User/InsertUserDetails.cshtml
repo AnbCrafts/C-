@@ -1,0 +1,168 @@
+@model JQueryPractice.Models.UserDetails
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>InsertUserDetails</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11pt;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2, h4 {
+            color: #333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+        }
+        th {
+            background-color: #343a40;
+            color: white;
+            text-align: left;
+        }
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .nav-links {
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            display: inline-block;
+            padding: 8px 14px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="/Home/Index">Doctors DataTable</a>
+            <a href="/Home/JSGrid">JSGrid View</a>
+            <a href="/Home/RedirectDemo">Redirect & Status Results Demo</a>
+        </div>
+
+        <h2>User Details Registration</h2>
+
+        @using (Html.BeginForm("InsertUserDetails", "User", FormMethod.Post))
+        {
+            <table>
+                <tr>
+                    <td>User Name:</td>
+                    <td>@Html.TextBoxFor(u => u.UserName)</td>
+                </tr>
+                <tr>
+                    <td>Education:</td>
+                    <td>@Html.TextBoxFor(u => u.Education)</td>
+                </tr>
+                <tr>
+                    <td>Location:</td>
+                    <td>@Html.TextBoxFor(u => u.Location)</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Register" class="btn-submit" /></td>
+                </tr>
+            </table>
+        }
+
+        <h4>User Details List</h4>
+        @if (Model != null && Model.usersinfo != null)
+        {
+            if (Model.usersinfo.Count > 0)
+            {
+                <table>
+                    <thead>
+                        <tr>
+                            <th>UserId</th>
+                            <th>UserName</th>
+                            <th>Education</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.usersinfo)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelitem => item.UserId)</td>
+                                <td>@Html.DisplayFor(modelitem => item.UserName)</td>
+                                <td>@Html.DisplayFor(modelitem => item.Education)</td>
+                                <td>@Html.DisplayFor(modelitem => item.Location)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <b>No Details Found.</b>
+            }
+        }
+
+        <!-- Client-Side jQuery Redirect Demo (Slide 4) -->
+        <div style="margin-top: 25px; padding: 15px; background: #e9ecef; border-radius: 6px;">
+            <h4>Client-Side jQuery Redirect (Slide 4)</h4>
+            <p>Click below to trigger <code>window.location.href = '@@Url.Action(...)'</code> using jQuery:</p>
+            <button id="btnRedirect" style="padding: 8px 16px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                Go to Doctors DataTable
+            </button>
+        </div>
+    </div>
+
+    <!-- Slide 24: jQuery alert and redirect after form insert -->
+    <script type="text/javascript">
+        $(function () {
+            var msg = '@ViewData["result"]';
+            if (msg == '1') {
+                alert("User Details Inserted Successfully");
+                window.location.href = "@Url.Action("InsertUserDetails", "User")";
+            }
+
+            // Slide 4: jQuery click event redirect
+            $("#btnRedirect").click(function () {
+                window.location.href = "@Url.Action("Index", "Home")";
+            });
+        });
+    </script>
+</body>
+</html>

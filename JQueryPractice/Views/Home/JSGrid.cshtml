@@ -1,0 +1,108 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Doctors - JSGrid with AJAX</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10pt;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        .nav-links {
+            margin-bottom: 20px;
+        }
+        .nav-links a {
+            display: inline-block;
+            padding: 8px 16px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .nav-links a.active {
+            background-color: #28a745;
+        }
+    </style>
+    <!-- JSGrid CSS -->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Doctors Information (JSGrid)</h2>
+        <div class="nav-links">
+            <a href="/Home/Index">Doctors DataTable</a>
+            <a href="/Home/JSGrid" class="active">JSGrid View</a>
+            <a href="/Home/RedirectDemo">Redirect & Status Results</a>
+            <a href="/User/InsertUserDetails">User Details (Slide 5-24)</a>
+        </div>
+
+        <div id="jsGridDoctors"></div>
+    </div>
+
+    <!-- jQuery & JSGrid JS -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $.ajax({
+                type: "POST",
+                url: "/Home/AjaxMethod",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function (response) {
+                    alert(response.d || response.statusText);
+                },
+                error: function (response) {
+                    alert(response.d || response.statusText);
+                }
+            });
+        });
+
+        function OnSuccess(response) {
+            $("#jsGridDoctors").jsGrid({
+                width: "100%",
+                height: "auto",
+                autoload: true,
+                sorting: true,
+                paging: true,
+                pageSize: 5,
+                pageButtonCount: 5,
+                data: response,
+                fields: [
+                    { name: "DoctorId", title: "Doctor ID", type: "number", width: 70 },
+                    { name: "FirstName", title: "First Name", type: "text", width: 100 },
+                    { name: "LastName", title: "Last Name", type: "text", width: 100 },
+                    { name: "Specialization", title: "Specialization", type: "text", width: 130 },
+                    { name: "DepartmentId", title: "Dept ID", type: "number", width: 70 },
+                    { name: "Email", title: "Email", type: "text", width: 150 },
+                    { name: "PhoneNumber", title: "Phone Number", type: "text", width: 110 }
+                ]
+            });
+        };
+    </script>
+</body>
+</html>
