@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Queries - CRUD Operations</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .hero-header {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      color: white;
+      padding: 1.5rem 0;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card {
+      border: none;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card-header {
+      background-color: #fff;
+      border-bottom: 1px solid #edf2f7;
+      font-weight: 600;
+    }
+    .table-hover tbody tr:hover {
+      background-color: #f8fafc;
+    }
+    .badge-active {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .badge-inactive {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .table td, .table th {
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+    .action-btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="hero-header">
+    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <div>
+        <h3 class="mb-0 fw-bold"><i class="bi bi-people-fill me-2"></i>User Queries Management</h3>
+        <small class="opacity-75">ASP.NET Core Web API CRUD for <code>[AssignmentDB].[labTest].[QueryUser]</code></small>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="/scalar/v1" target="_blank" class="btn btn-outline-light btn-sm">
+          <i class="bi bi-box-arrow-up-right me-1"></i> API Reference (Scalar)
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mb-5">
+
+    <!-- Alert Message Area -->
+    <div id="alertContainer"></div>
+
+    <div class="row g-4">
+      
+      <!-- FORM COLUMN -->
+      <div class="col-lg-4">
+        <div class="card sticky-top" style="top: 1rem; z-index: 10;">
+          <div class="card-header py-3 d-flex justify-content-between align-items-center">
+            <span id="formTitle"><i class="bi bi-plus-circle text-primary me-2"></i>Add New User</span>
+            <button id="btnCancelEdit" class="btn btn-sm btn-outline-secondary d-none" onclick="resetForm()">
+              <i class="bi bi-x-circle me-1"></i>Cancel
+            </button>
+          </div>
+          <div class="card-body">
+            <form id="userForm" onsubmit="handleFormSubmit(event)">
+              <input type="hidden" id="userId" value="">
+
+              <div class="mb-2">
+                <label class="form-label small fw-semibold">User Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-sm" id="userName" required placeholder="e.g. johndoe">
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label small fw-semibold">Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control form-control-sm" id="email" required placeholder="john@example.com">
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label small fw-semibold">Full Name</label>
+                <input type="text" class="form-control form-control-sm" id="fullName" placeholder="John Doe">
+              </div>
+
+              <div class="row g-2 mb-2">
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Mobile No</label>
+                  <input type="text" class="form-control form-control-sm" id="mobileNo" placeholder="9800000000">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Gender</label>
+                  <select class="form-select form-select-sm" id="gender">
+                    <option value="">Select</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row g-2 mb-2">
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">City</label>
+                  <input type="text" class="form-control form-control-sm" id="city" placeholder="Kolkata">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">State</label>
+                  <input type="text" class="form-control form-control-sm" id="stateName" placeholder="West Bengal">
+                </div>
+              </div>
+
+              <div class="row g-2 mb-2">
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Country</label>
+                  <input type="text" class="form-control form-control-sm" id="country" value="India">
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-semibold">Query Amount (₹)</label>
+                  <input type="number" step="0.01" class="form-control form-control-sm" id="queryAmount" placeholder="0.00">
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <label class="form-label small fw-semibold">Query Text</label>
+                <textarea class="form-control form-control-sm" id="queryText" rows="2" placeholder="Enter query details..."></textarea>
+              </div>
+
+              <div class="form-check form-switch mb-3">
+                <input class="form-check-input" type="checkbox" id="isActive" checked>
+                <label class="form-check-label small" for="isActive">Is Active</label>
+              </div>
+
+              <div class="d-grid gap-2">
+                <button type="submit" id="btnSubmit" class="btn btn-primary btn-sm">
+                  <i class="bi bi-save me-1"></i> Save User
+                </button>
+                <button type="button" class="btn btn-light btn-sm text-secondary" onclick="resetForm()">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Form
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- TABLE COLUMN -->
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header py-3">
+            <div class="row g-2 align-items-center">
+              <div class="col-md-5">
+                <div class="input-group input-group-sm">
+                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email..." oninput="handleSearch()">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <select id="filterActive" class="form-select form-select-sm" onchange="loadUsers()">
+                  <option value="">All Statuses</option>
+                  <option value="true">Active Only</option>
+                  <option value="false">Inactive Only</option>
+                </select>
+              </div>
+              <div class="col-md-4 text-md-end">
+                <span class="badge bg-secondary me-2" id="recordCountBadge">Loading...</span>
+                <button class="btn btn-sm btn-outline-primary" onclick="loadUsers()">
+                  <i class="bi bi-arrow-clockwise"></i> Refresh
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive" style="max-height: 650px;">
+              <table class="table table-hover table-striped mb-0">
+                <thead class="table-light sticky-top" style="z-index: 1;">
+                  <tr>
+                    <th>ID</th>
+                    <th>User / Email</th>
+                    <th>Location / Mobile</th>
+                    <th>Gender</th>
+                    <th>Query / Amount</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody">
+                  <tr>
+                    <td colspan="7" class="text-center py-4 text-muted">
+                      <div class="spinner-border spinner-border-sm text-primary me-2" role="status"></div>
+                      Loading data from API...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/QueryUsers';
+    let allUsers = [];
+
+    // Load users on startup
+    document.addEventListener('DOMContentLoaded', () => {
+      loadUsers();
+    });
+
+    // Alert Notification helper
+    function showAlert(message, type = 'success') {
+      const container = document.getElementById('alertContainer');
+      container.innerHTML = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+          <i class="bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'} me-2"></i>
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      setTimeout(() => {
+        const alert = container.querySelector('.alert');
+        if (alert) alert.remove();
+      }, 4000);
+    }
+
+    // READ: Load users from GET /api/QueryUsers
+    async function loadUsers() {
+      const filterActive = document.getElementById('filterActive').value;
+      let url = API_URL;
+      if (filterActive !== "") {
+        url += `?isActive=${filterActive}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        allUsers = await response.json();
+        renderTable(allUsers);
+      } catch (err) {
+        console.error(err);
+        document.getElementById('userTableBody').innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center text-danger py-4">
+              <i class="bi bi-x-circle me-1"></i> Failed to load data from API: ${err.message}
+            </td>
+          </tr>
+        `;
+      }
+    }
+
+    // Render Table Rows
+    function renderTable(users) {
+      const tbody = document.getElementById('userTableBody');
+      const badge = document.getElementById('recordCountBadge');
+      badge.textContent = `${users.length} Records`;
+
+      if (!users || users.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="text-center py-4 text-muted">No records found.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = users.map(user => {
+        const amountDisplay = user.queryAmount != null ? `₹${parseFloat(user.queryAmount).toFixed(2)}` : '<span class="text-muted">-</span>';
+        const queryDisplay = user.queryText ? (user.queryText.length > 35 ? user.queryText.substring(0, 35) + '...' : user.queryText) : '<span class="text-muted">None</span>';
+        const statusBadge = user.isActive 
+          ? `<span class="badge badge-active"><i class="bi bi-check-circle me-1"></i>Active</span>`
+          : `<span class="badge badge-inactive"><i class="bi bi-dash-circle me-1"></i>Inactive</span>`;
+
+        return `
+          <tr>
+            <td class="fw-bold text-secondary">#${user.userId}</td>
+            <td>
+              <div class="fw-semibold text-dark">${escapeHtml(user.userName)}</div>
+              <div class="small text-muted">${escapeHtml(user.fullName || '')}</div>
+              <div class="small text-primary">${escapeHtml(user.email)}</div>
+            </td>
+            <td>
+              <div class="small">${escapeHtml(user.mobileNo || '-')}</div>
+              <div class="small text-muted">${escapeHtml([user.city, user.stateName, user.country].filter(Boolean).join(', ') || '-')}</div>
+            </td>
+            <td><span class="small">${escapeHtml(user.gender || '-')}</span></td>
+            <td>
+              <div class="small text-truncate" style="max-width: 180px;" title="${escapeHtml(user.queryText || '')}">${queryDisplay}</div>
+              <div class="small fw-semibold text-success">${amountDisplay}</div>
+            </td>
+            <td>${statusBadge}</td>
+            <td class="text-end text-nowrap">
+              <button class="btn btn-outline-primary action-btn me-1" onclick="startEditUser(${user.userId})" title="Edit User">
+                <i class="bi bi-pencil-square"></i>
+              </button>
+              <button class="btn btn-outline-danger action-btn" onclick="deleteUser(${user.userId})" title="Delete User">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Client-side quick search
+    function handleSearch() {
+      const term = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!term) {
+        renderTable(allUsers);
+        return;
+      }
+      const filtered = allUsers.filter(u => 
+        (u.userName && u.userName.toLowerCase().includes(term)) ||
+        (u.email && u.email.toLowerCase().includes(term)) ||
+        (u.fullName && u.fullName.toLowerCase().includes(term)) ||
+        (u.city && u.city.toLowerCase().includes(term)) ||
+        (u.mobileNo && u.mobileNo.includes(term))
+      );
+      renderTable(filtered);
+    }
+
+    // Populate form for Edit
+    function startEditUser(userId) {
+      const user = allUsers.find(u => u.userId === userId);
+      if (!user) return;
+
+      document.getElementById('userId').value = user.userId;
+      document.getElementById('userName').value = user.userName || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('fullName').value = user.fullName || '';
+      document.getElementById('mobileNo').value = user.mobileNo || '';
+      document.getElementById('gender').value = user.gender || '';
+      document.getElementById('city').value = user.city || '';
+      document.getElementById('stateName').value = user.stateName || '';
+      document.getElementById('country').value = user.country || '';
+      document.getElementById('queryAmount').value = user.queryAmount != null ? user.queryAmount : '';
+      document.getElementById('queryText').value = user.queryText || '';
+      document.getElementById('isActive').checked = !!user.isActive;
+
+      document.getElementById('formTitle').innerHTML = `<i class="bi bi-pencil-square text-warning me-2"></i>Edit User #${user.userId}`;
+      document.getElementById('btnSubmit').innerHTML = `<i class="bi bi-check2-circle me-1"></i> Update User`;
+      document.getElementById('btnSubmit').className = 'btn btn-warning btn-sm';
+      document.getElementById('btnCancelEdit').classList.remove('d-none');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Reset Form
+    function resetForm() {
+      document.getElementById('userForm').reset();
+      document.getElementById('userId').value = '';
+      document.getElementById('isActive').checked = true;
+      document.getElementById('country').value = 'India';
+
+      document.getElementById('formTitle').innerHTML = `<i class="bi bi-plus-circle text-primary me-2"></i>Add New User`;
+      document.getElementById('btnSubmit').innerHTML = `<i class="bi bi-save me-1"></i> Save User`;
+      document.getElementById('btnSubmit').className = 'btn btn-primary btn-sm';
+      document.getElementById('btnCancelEdit').classList.add('d-none');
+    }
+
+    // CREATE or UPDATE submit handler
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const id = document.getElementById('userId').value;
+      const isEdit = !!id;
+
+      const payload = {
+        userName: document.getElementById('userName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        fullName: document.getElementById('fullName').value.trim() || null,
+        mobileNo: document.getElementById('mobileNo').value.trim() || null,
+        gender: document.getElementById('gender').value || null,
+        city: document.getElementById('city').value.trim() || null,
+        stateName: document.getElementById('stateName').value.trim() || null,
+        country: document.getElementById('country').value.trim() || null,
+        queryAmount: document.getElementById('queryAmount').value ? parseFloat(document.getElementById('queryAmount').value) : null,
+        queryText: document.getElementById('queryText').value.trim() || null,
+        isActive: document.getElementById('isActive').checked
+      };
+
+      const submitBtn = document.getElementById('btnSubmit');
+      submitBtn.disabled = true;
+
+      try {
+        let response;
+        if (isEdit) {
+          // PUT /api/QueryUsers/{id}
+          response = await fetch(`${API_URL}/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          // POST /api/QueryUsers
+          response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.message || `Server responded with ${response.status}`);
+        }
+
+        showAlert(isEdit ? `User #${id} updated successfully!` : `New user added successfully!`, 'success');
+        resetForm();
+        await loadUsers();
+      } catch (err) {
+        console.error(err);
+        showAlert(`Error saving user: ${err.message}`, 'danger');
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    // DELETE: Delete user
+    async function deleteUser(id) {
+      if (!confirm(`Are you sure you want to delete User #${id}?`)) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/${id}`, {
+          method: 'DELETE'
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+
+        showAlert(`User #${id} deleted successfully!`, 'success');
+        if (document.getElementById('userId').value == id) {
+          resetForm();
+        }
+        await loadUsers();
+      } catch (err) {
+        console.error(err);
+        showAlert(`Failed to delete user: ${err.message}`, 'danger');
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
