@@ -1,0 +1,234 @@
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Users List</h3>
+    <div>
+        <button class="btn btn-sm btn-outline-secondary me-2" onclick="manualRefreshToken()">Refresh Token</button>
+        <button class="btn btn-sm btn-primary" onclick="openAddModal()">Add User</button>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Search..." oninput="filterUsers()" />
+    </div>
+</div>
+
+<div id="usersAlert" class="alert d-none"></div>
+
+<table class="table table-bordered table-striped table-sm">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>City</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="usersTableBody">
+        <tr>
+            <td colspan="8" class="text-center">Loading...</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Simple Add/Edit Modal -->
+<div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="userForm" onsubmit="saveUser(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalTitle">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="modalUserId" value="0" />
+                    <div id="modalAlert" class="alert alert-danger d-none"></div>
+
+                    <div class="mb-2">
+                        <label class="form-label small">Username *</label>
+                        <input type="text" id="modalUserName" class="form-control form-control-sm" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Email *</label>
+                        <input type="email" id="modalEmail" class="form-control form-control-sm" required />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Full Name</label>
+                        <input type="text" id="modalFullName" class="form-control form-control-sm" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">Mobile</label>
+                        <input type="text" id="modalMobileNo" class="form-control form-control-sm" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label small">City</label>
+                        <input type="text" id="modalCity" class="form-control form-control-sm" />
+                    </div>
+                    <div class="form-check mt-2">
+                        <input type="checkbox" id="modalIsActive" class="form-check-input" checked />
+                        <label class="form-check-label small" for="modalIsActive">Is Active</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    let usersData = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!AuthManager.isAuthenticated()) {
+            window.location.href = '/Account/Login';
+            return;
+        }
+        loadUsers();
+    });
+
+    async function loadUsers() {
+        try {
+            const res = await fetchWithAuth('/api/users');
+            if (res.ok) {
+                usersData = await res.json();
+                renderTable(usersData);
+            } else if (res.status === 401) {
+                window.location.href = '/Account/Login';
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }
+
+    function renderTable(list) {
+        const tbody = document.getElementById('usersTableBody');
+        if (!list || list.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center">No users found</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = list.map(u => `
+            <tr>
+                <td>${u.userId}</td>
+                <td>${u.userName}</td>
+                <td>${u.fullName || '-'}</td>
+                <td>${u.email}</td>
+                <td>${u.mobileNo || '-'}</td>
+                <td>${u.city || '-'}</td>
+                <td>${u.isActive ? 'Active' : 'Inactive'}</td>
+                <td>
+                    <button class="btn btn-sm btn-outline-primary py-0" onclick="openEditModal(${u.userId})">Edit</button>
+                    <button class="btn btn-sm btn-outline-danger py-0" onclick="deleteUser(${u.userId})">Delete</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function filterUsers() {
+        const q = (document.getElementById('searchInput').value || '').toLowerCase();
+        const filtered = usersData.filter(u =>
+            (u.userName && u.userName.toLowerCase().includes(q)) ||
+            (u.fullName && u.fullName.toLowerCase().includes(q)) ||
+            (u.email && u.email.toLowerCase().includes(q)) ||
+            (u.city && u.city.toLowerCase().includes(q))
+        );
+        renderTable(filtered);
+    }
+
+    function openAddModal() {
+        document.getElementById('userModalTitle').textContent = 'Add User';
+        document.getElementById('modalUserId').value = '0';
+        document.getElementById('modalUserName').value = '';
+        document.getElementById('modalEmail').value = '';
+        document.getElementById('modalFullName').value = '';
+        document.getElementById('modalMobileNo').value = '';
+        document.getElementById('modalCity').value = '';
+        document.getElementById('modalIsActive').checked = true;
+        document.getElementById('modalAlert').classList.add('d-none');
+        new bootstrap.Modal(document.getElementById('userModal')).show();
+    }
+
+    async function openEditModal(id) {
+        document.getElementById('modalAlert').classList.add('d-none');
+        const res = await fetchWithAuth('/api/users/' + id);
+        if (!res.ok) return;
+        const u = await res.json();
+
+        document.getElementById('userModalTitle').textContent = 'Edit User #' + u.userId;
+        document.getElementById('modalUserId').value = u.userId;
+        document.getElementById('modalUserName').value = u.userName || '';
+        document.getElementById('modalEmail').value = u.email || '';
+        document.getElementById('modalFullName').value = u.fullName || '';
+        document.getElementById('modalMobileNo').value = u.mobileNo || '';
+        document.getElementById('modalCity').value = u.city || '';
+        document.getElementById('modalIsActive').checked = !!u.isActive;
+
+        new bootstrap.Modal(document.getElementById('userModal')).show();
+    }
+
+    async function saveUser(e) {
+        e.preventDefault();
+        const id = parseInt(document.getElementById('modalUserId').value, 10);
+        const payload = {
+            userId: id,
+            userName: document.getElementById('modalUserName').value.trim(),
+            email: document.getElementById('modalEmail').value.trim(),
+            fullName: document.getElementById('modalFullName').value.trim() || null,
+            mobileNo: document.getElementById('modalMobileNo').value.trim() || null,
+            city: document.getElementById('modalCity').value.trim() || null,
+            isActive: document.getElementById('modalIsActive').checked
+        };
+
+        const isNew = id === 0;
+        const res = await fetchWithAuth(isNew ? '/api/users' : '/api/users/' + id, {
+            method: isNew ? 'POST' : 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+            bootstrap.Modal.getInstance(document.getElementById('userModal')).hide();
+            loadUsers();
+        } else {
+            const err = await res.json();
+            const alertBox = document.getElementById('modalAlert');
+            alertBox.textContent = err.message || 'Save failed';
+            alertBox.classList.remove('d-none');
+        }
+    }
+
+    async function deleteUser(id) {
+        if (!confirm('Are you sure you want to delete user #' + id + '?')) return;
+        const res = await fetchWithAuth('/api/users/' + id, { method: 'DELETE' });
+        if (res.ok) {
+            loadUsers();
+        } else {
+            alert('Failed to delete user');
+        }
+    }
+
+    async function manualRefreshToken() {
+        const oldAccess = AuthManager.getAccessToken();
+        const oldRefresh = AuthManager.getRefreshToken();
+        const success = await performTokenRefresh(oldAccess, oldRefresh);
+        if (success) {
+            alert('Token refreshed successfully!');
+        } else {
+            alert('Token refresh failed. Redirecting to login.');
+            AuthManager.clear();
+            window.location.href = '/Account/Login';
+        }
+    }
+</script>
+}

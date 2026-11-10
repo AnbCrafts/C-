@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-3">Login</h4>
+
+                <div id="loginAlert" class="alert alert-danger d-none" role="alert"></div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" id="usernameInput" class="form-control" placeholder="Enter username" required autofocus />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Mobile / Password</label>
+                        <input type="text" id="phoneInput" class="form-control" placeholder="Enter mobile number" required />
+                    </div>
+
+                    <button type="submit" id="loginBtn" class="btn btn-primary w-100">Login</button>
+                </form>
+
+                <div class="mt-3 text-muted small">
+                    Demo: <strong>user10</strong> / <strong>9800000010</strong>
+                    <button type="button" class="btn btn-link btn-sm p-0 ms-1" onclick="document.getElementById('usernameInput').value='user10';document.getElementById('phoneInput').value='9800000010';">Fill</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    async function handleLogin(e) {
+        e.preventDefault();
+        const alertBox = document.getElementById('loginAlert');
+        alertBox.className = 'alert alert-danger d-none';
+
+        const username = document.getElementById('usernameInput').value.trim();
+        const phone = document.getElementById('phoneInput').value.trim();
+
+        try {
+            const res = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userName: username, mobileNo: phone })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                AuthManager.setTokens(data);
+                window.location.href = '/Users';
+            } else {
+                alertBox.textContent = data.message || 'Invalid username or phone.';
+                alertBox.classList.remove('d-none');
+            }
+        } catch (err) {
+            alertBox.textContent = 'Server error: ' + err.message;
+            alertBox.classList.remove('d-none');
+        }
+    }
+</script>
+}
