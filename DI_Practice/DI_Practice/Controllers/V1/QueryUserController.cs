@@ -1,23 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using DI_Practice.Services;
 
-namespace DI_Practice.Controllers
+namespace DI_Practice.Controllers.V1
 {
-    public class QueryUserController : Controller
+    [ApiController]
+    [Route("api/v1/[controller]")]
+    [Route("[controller]")] // backward compatibility: /queryuser also routes to v1
+    public class QueryUserController : ControllerBase
     {
         private readonly IQueryUserService _userService;
 
-        // Constructor Injection: ASP.NET Core DI provides the instance automatically
         public QueryUserController(IQueryUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult GetAll()
         {
             var data = _userService.GetAllQueries();
-            return Json(data);
+            return Ok(data);
         }
     }
 }
